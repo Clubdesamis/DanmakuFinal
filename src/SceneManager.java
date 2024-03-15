@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.IOException;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
@@ -17,8 +18,9 @@ public class SceneManager {
         scenes.put(name, scene);
     }
 
-    public void push(String name){
+    public void push(String name) throws IOException {
         if(scenes.containsKey(name)){
+            scenes.get(name).init();
             sceneStack.push(scenes.get(name));
             return;
         }
@@ -26,15 +28,17 @@ public class SceneManager {
     }
 
     public void render(Graphics graphics){
-        for(int i = 0; i < sceneStack.size(); i++){
-            sceneStack.get(i).render(graphics);
-        }
+        sceneStack.getFirst().render(graphics);
+        //for(int i = 0; i < sceneStack.size(); i++){
+            //sceneStack.get(i).render(graphics);
+        //}
     }
 
     public void simulate(){
-        for(int i = 0; i < sceneStack.size(); i++){
-            sceneStack.get(i).simulate();
-        }
+        sceneStack.getFirst().simulate();
+        //for(int i = 0; i < sceneStack.size(); i++){
+            //sceneStack.get(i).simulate();
+        //}
     }
 
 }

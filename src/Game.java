@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.io.IOException;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
@@ -9,9 +10,15 @@ public class Game {
     public static SceneManager sceneManager;
     public static JFrame window;
     public static Graphics graphics;
-    public static double deltaTime;
-    public static double msPerFrame;
+    public static long deltaTime = 0;
+    public static long newTime = 0;
+    public static long oldTime = 0;
+    public static long timeToSleep = 0;
     public static BufferStrategy bufferStrategy;
+
+    public static ProjectileManager projectileManager;
+
+    public static ProjectileScript projectileScript;
 
     public static void init(){
         window = new JFrame();
@@ -22,16 +29,37 @@ public class Game {
         window.setIgnoreRepaint(true);
         sceneManager = new SceneManager();
         bufferStrategy = window.getBufferStrategy();
+        projectileManager = new ProjectileManager();
+        projectileScript = new ProjectileScript();
     }
 
     public static void loop(){
+        Graphics graphics;
+        BufferStrategy bufferStrategy;
         try{
+            bufferStrategy = window.getBufferStrategy();
             while(true){
+                oldTime = System.nanoTime();
 
-                Thread.sleep(16);
+                graphics = bufferStrategy.getDrawGraphics();
+                graphics.clearRect(0,0,window.getWidth(), window.getHeight());
                 sceneManager.simulate();
-                sceneManager.render(window.getGraphics());
+                sceneManager.render(graphics);
+                graphics.dispose();
+                bufferStrategy.show();
 
+                newTime = System.nanoTime();
+                deltaTime = newTime - oldTime;
+                timeToSleep = Constants.MILLISECONDS_PER_FRAME - deltaTime / 1000000;
+
+                System.out.println((double)deltaTime / 1000000);
+
+                if(timeToSleep <= 0){
+                    System.out.println("Invalid timeout value in main loop, defaulting to skipping thread sleep");
+                }
+                else{
+                    Thread.sleep(timeToSleep);
+                }
             }
         }
         catch(Exception e){
@@ -62,6 +90,14 @@ public class Game {
     public static Graphics getGraphics(){
         return bufferStrategy.getDrawGraphics();
         //return window.getBufferStrategy().getDrawGraphics();
+    }
+
+    public static void main(String[] args) throws IOException {
+        System.out.println("Hello world!");
+        Game.init();
+        Game.getSceneManager().add("testScene", new DanmakuScene());
+        Game.getSceneManager().push("testScene");
+        Game.loop();
     }
 
 
