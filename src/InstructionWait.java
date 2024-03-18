@@ -1,4 +1,4 @@
-public class InstructionWait  extends Instruction {
+public class InstructionWait extends Instruction {
 
     private int timeToWait;
     private boolean firstPass = true;
@@ -7,6 +7,10 @@ public class InstructionWait  extends Instruction {
     public InstructionWait(int timeToWait){
         this.timeToWait = timeToWait;
     }
+
+    public int getInstructionId(){
+        return Constants.INSTRUCTION_WAIT_INTERNAL_ID;
+    }
     public boolean execute(){
         if(firstPass){
             time = (int)System.currentTimeMillis();
@@ -14,6 +18,7 @@ public class InstructionWait  extends Instruction {
             return false;
         }
         else if(((int)System.currentTimeMillis() - time) >= timeToWait){
+            firstPass = true;
             return true;
         }
         return false;

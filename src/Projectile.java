@@ -93,5 +93,4 @@ public class Projectile {
     public void draw(Graphics graphics){
         graphics.drawImage(image, (int)(positionX + 7) - size / 2, (int)(positionY + 30) - size / 2, null);
     }
-
 }

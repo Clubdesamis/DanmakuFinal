@@ -1,7 +1,5 @@
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public class DanmakuScene implements Scene{
@@ -16,12 +14,42 @@ public class DanmakuScene implements Scene{
     }
 
     public void init() throws IOException {
-        verySmallPurpleProjectileImage = ImageIO.read(new File("VerySmallPurpleProjectile.png"));
-        smallPurpleProjectileImage = ImageIO.read(new File("SmallPurpleProjectile.png"));
-        verySmallRedProjectileImage = ImageIO.read(new File("VerySmallRedProjectile.png"));
-        mediumRedProjectileImage = ImageIO.read(new File("MediumRedProjectile.png"));
+        verySmallPurpleProjectileImage = Game.ressourceManager.getTexture("VerySmallPurpleProjectile.png");
+        smallPurpleProjectileImage = Game.ressourceManager.getTexture("SmallPurpleProjectile.png");
+        verySmallRedProjectileImage = Game.ressourceManager.getTexture("VerySmallRedProjectile.png");
+        mediumRedProjectileImage = Game.ressourceManager.getTexture("MediumRedProjectile.png");
 
-        Game.projectileScript.addInstruction(new InstructionWait(200));
+
+        Game.scriptReader.loadScript("Script1.club");
+
+        //InstructionParallel parallel1 = new InstructionParallel();
+        //InstructionParallel parallel2 = new InstructionParallel();
+        //InstructionParallel parallel3 = new InstructionParallel();
+
+        InstructionList list1 = new InstructionList();
+
+        list1.addInstruction(new InstructionMakeSpiral(200, 200, 1, 10, 51, (float)3.5, 4, (float)10.0, (float)40.0, true, 0, mediumRedProjectileImage));
+        list1.addInstruction(new InstructionMakeCircle(200, 200, 32, (float)30.0, (float)4.0, smallPurpleProjectileImage, 31, 0));
+        list1.addInstruction(new InstructionMakeSpiral(200, 200, 1, 10, 51, (float)3.5, 4, (float)10.0, (float)140.0, false, 0, mediumRedProjectileImage));
+        list1.addInstruction(new InstructionMakeCircle(200, 200, 32, (float)30.0, (float)4.0, smallPurpleProjectileImage, 31, 0));
+
+        list1.addInstruction(new InstructionMakeSpiral(400, 200, 1, 10, 51, (float)3.5, 4, (float)10.0, (float)40.0, true, 0, mediumRedProjectileImage));
+        list1.addInstruction(new InstructionMakeCircle(400, 200, 32, (float)30.0, (float)4.0, smallPurpleProjectileImage, 31, 0));
+        list1.addInstruction(new InstructionMakeSpiral(400, 200, 1, 10, 51, (float)3.5, 4, (float)10.0, (float)140.0, false, 0, mediumRedProjectileImage));
+        list1.addInstruction(new InstructionMakeCircle(400, 200, 32, (float)30.0, (float)4.0, smallPurpleProjectileImage, 31, 0));
+
+        //parallel3.addInstruction(parallel1);
+        //parallel3.addInstruction(parallel2);
+
+        //InstructionLoop loop1 = new InstructionLoop(0);
+        //loop1.addInstruction(parallel3);
+        //loop1.addInstruction(new InstructionWait(250));
+        Game.projectileScript.addInstruction(list1);
+        Game.projectileScript.addInstruction(list1);
+
+
+
+        Game.projectileScript.addInstruction(new InstructionWait(20000));
         Game.projectileScript.addInstruction(new InstructionMakeSpiral(300, 200, 1, 10, 51, (float)3.5, 4, (float)10.0, (float)40.0, true, 0, mediumRedProjectileImage));
         Game.projectileScript.addInstruction(new InstructionMakeCircle(300, 200, 32, (float)30.0, (float)4.0, smallPurpleProjectileImage, 31, 0));
         Game.projectileScript.addInstruction(new InstructionMakeSpiral(300, 200, 1, 10, 51, (float)3.5, 4, (float)10.0, (float)140.0, false, 0, mediumRedProjectileImage));

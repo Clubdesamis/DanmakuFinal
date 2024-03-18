@@ -4,10 +4,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import static java.awt.Image.SCALE_DEFAULT;
+
 public class TestScene implements Scene {
 
     private String name;
-    private BufferedImage testImage1;
+    private Image testImage1;
     private int x = 100;
     private int y = 100;
 
@@ -16,7 +18,11 @@ public class TestScene implements Scene {
     }
 
     public void init() throws IOException {
-        testImage1 = ImageIO.read(new File("marisa.JPG"));
+        File directory = new File("Scripts");
+        File[] files = directory.listFiles();
+        for(int i = 0; i < files.length; i++){
+            //System.out.println(files[i].getName());
+        }
     }
 
     public void close(){
@@ -24,13 +30,10 @@ public class TestScene implements Scene {
     }
 
     public void render(Graphics graphics){
-        //System.out.println("TestScene render called in " + name);
-        graphics.drawImage(testImage1, x, y, null);
+
     }
     public void simulate(){
-        //System.out.println("TestScene simulate called in " + name);
-        x++;
-        y++;
+
     }
 
     public void setName(String name){

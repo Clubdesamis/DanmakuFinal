@@ -1,0 +1,26 @@
+<META>
+	/this is a comment
+	Name Frightfully-insane Clubs frightful danmaku
+	Difficulty hard
+	Creator Clubdesamis
+</META>
+
+<SCRIPT>
+	wait 1000
+	<LOOP> 8
+		<PARALLEL>
+			makeSpiral 200 200 1 10 51 3.5 4 10.0 40.0 true 0 mediumRedProjectile
+			makeSpiral 400 200 1 10 51 3.5 4 10.0 40.0 true 0 mediumRedProjectile
+			/this is a comment
+		</PARALLEL>
+	</LOOP>
+	wait 400
+	<LOOP> 4
+		<LOOP> 2
+			makeSpiral 200 200 1 10 51 3.5 4 10.0 40.0 true 0 mediumRedProjectile
+			makeCircle 300 200 32 30.0 4.0 smallPurpleProjectile 31 0
+			makeSpiral 300 200 1 10 51 3.5 4 10.0 140.0 false mediumRedProjectile
+			makeCircle 300 200 32 60.0 4.0 smallPurpleProjectile 31 0
+		</LOOP>
+	</LOOP>
+</SCRIPT>

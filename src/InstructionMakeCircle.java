@@ -32,6 +32,10 @@ public class InstructionMakeCircle extends Instruction {
         this.id = id;
     }
 
+    public int getInstructionId(){
+        return Constants.INSTRUCTION_MAKECIRCLE_INTERNAL_ID;
+    }
+
     public boolean execute(){
         double trajectory = initialOffset;
         double offset = (double)360.0 / (double)projectileCount;

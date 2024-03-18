@@ -19,6 +19,8 @@ public class Game {
     public static ProjectileManager projectileManager;
 
     public static ProjectileScript projectileScript;
+    public static RessourceManager ressourceManager;
+    public static ScriptReader scriptReader;
 
     public static void init(){
         window = new JFrame();
@@ -29,6 +31,8 @@ public class Game {
         window.setIgnoreRepaint(true);
         sceneManager = new SceneManager();
         bufferStrategy = window.getBufferStrategy();
+        ressourceManager = new RessourceManager();
+        scriptReader = new ScriptReader();
         projectileManager = new ProjectileManager();
         projectileScript = new ProjectileScript();
     }
@@ -51,8 +55,6 @@ public class Game {
                 newTime = System.nanoTime();
                 deltaTime = newTime - oldTime;
                 timeToSleep = Constants.MILLISECONDS_PER_FRAME - deltaTime / 1000000;
-
-                System.out.println((double)deltaTime / 1000000);
 
                 if(timeToSleep <= 0){
                     System.out.println("Invalid timeout value in main loop, defaulting to skipping thread sleep");
@@ -99,8 +101,4 @@ public class Game {
         Game.getSceneManager().push("testScene");
         Game.loop();
     }
-
-
-
-
 }

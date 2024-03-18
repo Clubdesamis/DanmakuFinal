@@ -21,14 +21,25 @@ public class ProjectileScript {
 
     public void executeInstruction(){
         if(instructionIndex == instructionCount){
-            //System.out.println("End of script has been reached");
             return;
         }
         if(instructions[instructionIndex].execute()){
             instructionIndex++;
         }
         else{
-            //System.out.println("Instruction at index " + Integer.toString(instructionIndex) + " has been fully executed");
         }
+    }
+
+    public void jumpToLastLoop(){
+
+        while(--instructionIndex >= 0){
+            if(instructions[instructionIndex].getInstructionId() == Constants.INSTRUCTION_LOOP_INTERNAL_ID){
+                break;
+            }
+        }
+    }
+
+    public void jumpToOffset(int offset){
+        instructionIndex += offset;
     }
 }
