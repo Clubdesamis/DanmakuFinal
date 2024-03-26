@@ -23,4 +23,8 @@ public class InstructionWait extends Instruction {
         }
         return false;
     }
+
+    public static Instruction build(String[] arguments){
+        return new InstructionWait(2);
+    }
 }

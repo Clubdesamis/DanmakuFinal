@@ -12,6 +12,11 @@
 			makeSpiral 200 200 1 10 51 3.5 4 10.0 40.0 true 0 mediumRedProjectile
 			makeSpiral 400 200 1 10 51 3.5 4 10.0 40.0 true 0 mediumRedProjectile
 			/this is a comment
+			<SEQUENCE>
+				makeCircle 300 200 32 30.0 4.0 smallPurpleProjectile 31 0
+				wait 200
+				makeCircle 300 200 32 30.0 4.0 smallPurpleProjectile 31 0
+			</SEQUENCE>
 		</PARALLEL>
 	</LOOP>
 	wait 400

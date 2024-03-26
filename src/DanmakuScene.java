@@ -26,7 +26,7 @@ public class DanmakuScene implements Scene{
         //InstructionParallel parallel2 = new InstructionParallel();
         //InstructionParallel parallel3 = new InstructionParallel();
 
-        InstructionList list1 = new InstructionList();
+        InstructionSequence list1 = new InstructionSequence();
 
         list1.addInstruction(new InstructionMakeSpiral(200, 200, 1, 10, 51, (float)3.5, 4, (float)10.0, (float)40.0, true, 0, mediumRedProjectileImage));
         list1.addInstruction(new InstructionMakeCircle(200, 200, 32, (float)30.0, (float)4.0, smallPurpleProjectileImage, 31, 0));

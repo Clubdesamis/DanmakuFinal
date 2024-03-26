@@ -65,7 +65,7 @@ public class ScriptReader {
         boolean insideHeader = false;
         Scanner scanner = null;
         ArrayList<String> instructionStrings = new ArrayList<String>();
-        InstructionContainer instructions = new InstructionList();
+        InstructionContainer instructions = new InstructionSequence();
         try{
             scanner = new Scanner(scriptFile);
         }
@@ -86,7 +86,8 @@ public class ScriptReader {
                     }
                     default:{
                         if(line.equals(Constants.SCRIPT_END_TAG)){
-                            instructions = buildScript(instructionStrings, Constants.INSTRUCTION_LIST_INTERNAL_ID);
+                            instructions = buildScript(instructionStrings, Constants.INSTRUCTION_SEQUENCE_INTERNAL_ID);
+
                         }
                         //System.out.println("Adding line " + line + " to script");
                         instructionStrings.add(line);
@@ -107,8 +108,8 @@ public class ScriptReader {
         container = new InstructionLoop();
 
         switch(InstructionInternalId){
-            case Constants.INSTRUCTION_LIST_INTERNAL_ID -> {
-                container = new InstructionList();
+            case Constants.INSTRUCTION_SEQUENCE_INTERNAL_ID -> {
+                container = new InstructionSequence();
                 break;
             }
             case Constants.INSTRUCTION_LOOP_INTERNAL_ID -> {
@@ -139,7 +140,7 @@ public class ScriptReader {
                     String tempString = tags.pop();
                     int tempIndex = index.pop();
                     if(tags.size() == 0){
-                        System.out.println("\n\n\n\n\n");
+                        System.out.println("\n\n\n\n\n" + container.getInstructionId());
                         for(int j = tempIndex + 1; j < i; j++){
                             subScript.add(script.get(j));
                             System.out.println(script.get(j));
@@ -164,7 +165,7 @@ public class ScriptReader {
                     String tempString = tags.pop();
                     int tempIndex = index.pop();
                     if(tags.size() == 0){
-                        System.out.println("\n\n\n\n\n");
+                        System.out.println("\n\n\n\n\n" + container.getInstructionId());
                         for(int j = tempIndex + 1; j < i; j++){
                             subScript.add(script.get(j));
                             System.out.println(script.get(j));
@@ -174,8 +175,46 @@ public class ScriptReader {
                     }
                     break;
                 }
+                case Constants.SEQUENCE_TAG -> {
+                    tags.push(script.get(i));
+                    index.push(i);
+                    break;
+                }
+                case Constants.SEQUENCE_END_TAG -> {
+                    String tempString = tags.pop();
+                    int tempIndex = index.pop();
+                    if(tags.size() == 0){
+                        System.out.println("\n\n\n\n\n" + container.getInstructionId());
+                        for(int j = tempIndex + 1; j < i; j++){
+                            subScript.add(script.get(j));
+                            System.out.println(script.get(j));
+                        }
+                        container.addInstruction(buildScript(new ArrayList<String>(subScript), Constants.INSTRUCTION_SEQUENCE_INTERNAL_ID));
+                        subScript.clear();
+                    }
+                    break;
+                }
                 default -> {
                     if(tags.size() == 0){
+                        System.out.println(script.get(i));
+                        ArrayList<String> arguments = new ArrayList<String>();
+                        for(int j = 1; j < script.get(i).l j++){
+                            arguments.add(getWordAtIndex(script.get(i), j));
+                        }
+                        switch(getWordAtIndex(script.get(i), 0)){
+                            case Constants.INSTRUCTION_WAIT_TAG -> {
+                                InstructionWait.build();
+                                break;
+                            }
+                            case Constants.INSTRUCTION_MAKE_CIRCLE_TAG -> {
+
+                                break;
+                            }
+                            case Constants.INSTRUCTION_MAKE_SPIRAL_TAG -> {
+
+                                break;
+                            }
+                        }
                         container.addInstruction(new InstructionMakeCircle(200, 200, 32, (float)30.0, (float)4.0, Game.ressourceManager.getTexture("smallPurpleProjectile.png"), 31, 0));
                     }
                 }
@@ -251,4 +290,5 @@ public class ScriptReader {
         list.toArray(temp);
         return temp;
     }
+
 }

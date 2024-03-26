@@ -3,6 +3,6 @@ public abstract class Instruction {
 
     abstract public int getInstructionId();
 
-
     abstract public boolean execute();
+
 }

@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
-public class InstructionList extends InstructionContainer{
+public class InstructionSequence extends InstructionContainer{
 
     private int currentIndex;
 
-    public InstructionList(){
+    public InstructionSequence(){
         instructions = new ArrayList<Instruction>();
         currentIndex = 0;
     }
@@ -12,7 +12,7 @@ public class InstructionList extends InstructionContainer{
 
     @Override
     public int getInstructionId() {
-        return Constants.INSTRUCTION_LIST_INTERNAL_ID;
+        return Constants.INSTRUCTION_SEQUENCE_INTERNAL_ID;
     }
 
     public boolean execute(){
