@@ -26,13 +26,18 @@ public class InstructionLoop extends InstructionContainer{
 
 
     public boolean execute(){
+        if(currentIndex == 5){
+            System.out.println("Caught");
+        }
         if(instructions.get(currentIndex).execute()){
             //System.out.println("Instruction" + currentIndex + " executed!");
             currentIndex++;
+
             if(currentIndex == instructions.size()){
                 iterationCount--;
                 if(iterationCount == 0){
                     iterationCount = originalIterationCount;
+                    currentIndex = 0;
                     return true;
                 }
                 else{

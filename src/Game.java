@@ -22,19 +22,36 @@ public class Game {
     public static RessourceManager ressourceManager;
     public static ScriptReader scriptReader;
 
+    public static DialogManager dialogManager;
+
+    public static Observable observable;
+
     public static void init(){
         window = new JFrame();
         window.setVisible(true);
         window.setSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+        window.setResizable(false);
         window.setDefaultCloseOperation(EXIT_ON_CLOSE);
         window.createBufferStrategy(2);
         window.setIgnoreRepaint(true);
+        //window.setOpacity((float)0.0);
+        //window.setUndecorated(true);
+        //window.setBackground(new Color(0, 0, 0, 0));
+        Languages.init();
+        dialogManager = new DialogManager();
+        dialogManager.loadLanguage(Constants.LANGUAGE);
         sceneManager = new SceneManager();
         bufferStrategy = window.getBufferStrategy();
         ressourceManager = new RessourceManager();
         scriptReader = new ScriptReader();
         projectileManager = new ProjectileManager();
         projectileScript = new ProjectileScript();
+
+        observable = new Observable();
+        window.addMouseListener(observable);
+        window.addKeyListener(observable);
+        window.addMouseMotionListener(observable);
+        window.addMouseWheelListener(observable);
     }
 
     public static void loop(){
@@ -47,8 +64,10 @@ public class Game {
 
                 graphics = bufferStrategy.getDrawGraphics();
                 graphics.clearRect(0,0,window.getWidth(), window.getHeight());
+
                 sceneManager.simulate();
                 sceneManager.render(graphics);
+
                 graphics.dispose();
                 bufferStrategy.show();
 
@@ -98,7 +117,9 @@ public class Game {
         System.out.println("Hello world!");
         Game.init();
         Game.getSceneManager().add("testScene", new DanmakuScene());
-        Game.getSceneManager().push("testScene");
+        Game.getSceneManager().add("signInScene", new SignInScene());
+        Game.getSceneManager().add("mainMenuScene", new MainMenuScene());
+        Game.getSceneManager().push("signInScene");
         Game.loop();
     }
 }

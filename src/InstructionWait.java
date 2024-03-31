@@ -25,6 +25,6 @@ public class InstructionWait extends Instruction {
     }
 
     public static Instruction build(String[] arguments){
-        return new InstructionWait(2);
+        return new InstructionWait(Integer.parseInt(arguments[0]));
     }
 }

@@ -1,31 +1,37 @@
 <META>
 	/this is a comment
 	Name Frightfully-insane Clubs frightful danmaku
-	Difficulty hard
+	Difficulty Hard
 	Creator Clubdesamis
 </META>
 
 <SCRIPT>
 	wait 1000
-	<LOOP> 8
-		<PARALLEL>
-			makeSpiral 200 200 1 10 51 3.5 4 10.0 40.0 true 0 mediumRedProjectile
-			makeSpiral 400 200 1 10 51 3.5 4 10.0 40.0 true 0 mediumRedProjectile
+	<LOOP> 4
+		<SEQUENCE>
+			<PARALLEL>
+				makeSpiral 200 200 10 3.5 4 10.0 40.0 true 0 MediumRedProjectile.png
+				makeSpiral 400 200 10 3.5 4 10.0 40.0 true 0 MediumRedProjectile.png
+			</PARALLEL>
 			/this is a comment
 			<SEQUENCE>
-				makeCircle 300 200 32 30.0 4.0 smallPurpleProjectile 31 0
-				wait 200
-				makeCircle 300 200 32 30.0 4.0 smallPurpleProjectile 31 0
+				makeCircle 300 200 32 30.0 4.0 SmallPurpleProjectile.png 7
+				wait 100
+				makeCircle 300 200 32 30.0 4.0 SmallPurpleProjectile.png 7
 			</SEQUENCE>
-		</PARALLEL>
+			<PARALLEL>
+				makeSpiral 200 200 10 3.5 4 10.0 140.0 false 0 MediumRedProjectile.png
+            	makeSpiral 400 200 10 3.5 4 10.0 140.0 false 0 MediumRedProjectile.png
+            </PARALLEL>
+		</SEQUENCE>
 	</LOOP>
 	wait 400
 	<LOOP> 4
 		<LOOP> 2
-			makeSpiral 200 200 1 10 51 3.5 4 10.0 40.0 true 0 mediumRedProjectile
-			makeCircle 300 200 32 30.0 4.0 smallPurpleProjectile 31 0
-			makeSpiral 300 200 1 10 51 3.5 4 10.0 140.0 false mediumRedProjectile
-			makeCircle 300 200 32 60.0 4.0 smallPurpleProjectile 31 0
+			makeSpiral 300 200 10 3.5 4 10.0 40.0 true 0 MediumRedProjectile.png
+			makeCircle 300 200 32 30.0 4.0 SmallPurpleProjectile.png 7
+			makeSpiral 300 200 10 3.5 4 10.0 140.0 false 0 MediumRedProjectile.png
+			makeCircle 300 200 32 60.0 4.0 SmallPurpleProjectile.png 7
 		</LOOP>
 	</LOOP>
 </SCRIPT>

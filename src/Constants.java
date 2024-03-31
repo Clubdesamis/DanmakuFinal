@@ -1,12 +1,14 @@
 public class Constants {
-    public static final int WINDOW_HEIGHT = 700;
-    public static final int WINDOW_WIDTH = 600;
+    public static final int WINDOW_HEIGHT = 960;
+    public static final int WINDOW_WIDTH = 1280;
 
     //Millisecondes entre chaque frame refresh
     public static final int MILLISECONDS_PER_FRAME = 16;
     public static final int PROJECTILE_COUNT = 1000;
 
     public static final int SCRIPT_SIZE = 500;
+
+    public static final String LANGUAGE = "english";
 
     public static final String TEXTURE_FOLDER = "Textures";
     public static final String SCRIPT_FOLDER = "Scripts";
@@ -43,4 +45,10 @@ public class Constants {
 
     public static final int INSTRUCTION_MAKECIRCLE_INTERNAL_ID = 10;
     public static final int INSTRUCTION_MAKESPIRAL_INTERNAL_ID = 11;
+
+
+
+    public static final int MENU_LABEL_HEIGHT = 50;
+    public static final int MENU_LABEL_WIDTH = 200;
+
 }

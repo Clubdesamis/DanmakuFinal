@@ -1,20 +1,21 @@
 import java.io.File;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.*;
 
 public class ScriptReader {
 
-    public ArrayList<ScriptHeader> headers;
+    //public ArrayList<ScriptHeader> headers;
+    public Hashtable<String, String> metadata;
+
 
     public ScriptReader(){
-        headers = new ArrayList<ScriptHeader>();
+        //headers = new ArrayList<ScriptHeader>();
+        metadata = new Hashtable<String, String>();
 
         readAllHeaders();
     }
 
-    public void readAllHeaders(){
+    public ArrayList<ScriptHeader> readAllHeaders(){
+        ArrayList<ScriptHeader> headers = new ArrayList<ScriptHeader>();
         File directory = new File(Constants.SCRIPT_FOLDER);
         File[] files = directory.listFiles();
         Scanner scanner;
@@ -23,6 +24,8 @@ public class ScriptReader {
             for(int i = 0; i < files.length; i++){
                 scanner = new Scanner(files[i]);
                 ScriptHeader header = new ScriptHeader();
+                header.setAttribute("FileName", files[i].getName());
+                System.out.println("FileName" + "   " + header.getAttribute("FileName"));
                 while(scanner.hasNextLine()){
                     String line = scanner.nextLine();
                     if(insideHeader){
@@ -32,17 +35,16 @@ public class ScriptReader {
                         }
                         line = filter(line, '\t');
                         String[] lineWords = getWords(line);
-                        for(int j = 0; j < Constants.META_ARGUMENTS.length; j++){
-                            if(lineWords[0].equals(Constants.META_ARGUMENTS[j])){
+                        String name = lineWords[0];
+                        String data = "";
 
-                                String attributeName = lineWords[0];
-                                String attributeContent = "";
-                                for(int k = 1; k < lineWords.length; k++){
-                                    attributeContent += (lineWords[k] + ' ');
-                                }
-                                header.setAttribute(attributeName, attributeContent);
-                            }
+                        for(int j = 1; j < lineWords.length; j++){
+                            data += lineWords[j];
+                            data += " ";
                         }
+                        header.setAttribute(name, data);
+                        System.out.println(name + "   " + header.getAttribute(name));
+
                     }
                     else{
                         if(line.equals(Constants.META_TAG)){
@@ -55,12 +57,12 @@ public class ScriptReader {
             }
         }
         catch(Exception e){}
-        for(int i = 0; i < headers.size(); i++){
-            System.out.println(headers.get(i).toString());
-        }
+
+        System.out.println("Successfully read " + headers.size() + " headers");
+        return headers;
     }
 
-    public void loadScript(String scriptName){
+    public InstructionContainer loadScript(String scriptName){
         File scriptFile = new File(Constants.SCRIPT_FOLDER + '/' + scriptName);
         boolean insideHeader = false;
         Scanner scanner = null;
@@ -71,7 +73,7 @@ public class ScriptReader {
         }
         catch(Exception e){
             System.out.println("File could not be opened");
-            return;
+            return null;
         }
 
         getToTag(scanner, Constants.SCRIPT_TAG);
@@ -97,6 +99,7 @@ public class ScriptReader {
             }
 
         }
+        return instructions;
 
     }
 
@@ -198,24 +201,29 @@ public class ScriptReader {
                     if(tags.size() == 0){
                         System.out.println(script.get(i));
                         ArrayList<String> arguments = new ArrayList<String>();
-                        for(int j = 1; j < script.get(i).l j++){
+                        for(int j = 1; j < script.get(i).length(); j++){
+                            if(getWordAtIndex(script.get(i), j) == ""){
+                                break;
+                            }
                             arguments.add(getWordAtIndex(script.get(i), j));
                         }
+                        String[] argsArray = new String[arguments.size()];
+                        arguments.toArray(argsArray);
                         switch(getWordAtIndex(script.get(i), 0)){
                             case Constants.INSTRUCTION_WAIT_TAG -> {
-                                InstructionWait.build();
+                                container.addInstruction(InstructionWait.build(argsArray));
                                 break;
                             }
                             case Constants.INSTRUCTION_MAKE_CIRCLE_TAG -> {
-
+                                container.addInstruction(InstructionMakeCircle.build(argsArray));
                                 break;
                             }
                             case Constants.INSTRUCTION_MAKE_SPIRAL_TAG -> {
-
+                                container.addInstruction(InstructionMakeSpiral.build(argsArray));
                                 break;
                             }
                         }
-                        container.addInstruction(new InstructionMakeCircle(200, 200, 32, (float)30.0, (float)4.0, Game.ressourceManager.getTexture("smallPurpleProjectile.png"), 31, 0));
+                        //container.addInstruction(new InstructionMakeCircle(200, 200, 32, (float)30.0, (float)4.0, Game.ressourceManager.getTexture("smallPurpleProjectile.png"), 0));
                     }
                 }
             }
