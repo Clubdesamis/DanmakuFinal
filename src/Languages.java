@@ -28,6 +28,7 @@ public class Languages {
 		table.put("username_label", "Nom d'utilisateur");
 		table.put("password_label", "Mot de passe");
 		table.put("sign_in_button_label", "Connexion");
+		table.put("play_button_label", "Jouer");
 
 	}
 
@@ -37,6 +38,7 @@ public class Languages {
 		table.put("username_label", "Username");
 		table.put("password_label", "Password");
 		table.put("sign_in_button_label", "Sign In");
+		table.put("play_button_label", "Play");
 	}
 
 }

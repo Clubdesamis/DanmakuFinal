@@ -62,6 +62,10 @@ public class TextField extends VisualComponent{
 
 	}
 
+	public String getText(){
+		return text;
+	}
+
 	public void setIsPassword(boolean isPassword){
 		this.isPassword = isPassword;
 	}

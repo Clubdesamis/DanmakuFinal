@@ -24,6 +24,10 @@ public class Label extends VisualComponent{
 		this.text = text;
 	}
 
+	public String getText(){
+		return text;
+	}
+
 	public void setFont(String fontId){
 		if(Game.ressourceManager.getFont(fontId) != null){
 			font = Game.ressourceManager.getFont(fontId);

@@ -16,6 +16,15 @@ public class ScriptHeader {
             return metadata.get(name);
         }
     }
+
+    public void setContents(Hashtable<String, String> metadata){
+        this.metadata = metadata;
+    }
+
+    public Hashtable<String, String> getContents(){
+        return this.metadata;
+    }
+
     public void setAttribute(String name, String content){
         metadata.put(name, content);
     }

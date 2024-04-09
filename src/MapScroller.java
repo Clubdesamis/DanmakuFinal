@@ -1,10 +1,12 @@
 import java.awt.*;
 import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class MapScroller extends VisualComponent{
 
 	private ArrayList<ScriptHeader> headers;
+	private ArrayList<ScriptHeader> filteredHeaders;
 	private ArrayList<Button> levelButtons;
 	private Color buttonsColor;
 	private Color buttonsHoverColor;
@@ -17,6 +19,7 @@ public class MapScroller extends VisualComponent{
 	private int buttonsHeight;
 	private int buttonsWidth;
 	private int buttonSpacing;
+	private int searchCharacterCount;
 
 	private final int textOffsetX = 15;
 	private final int textOffsetY = 28;
@@ -26,7 +29,9 @@ public class MapScroller extends VisualComponent{
 
 	public MapScroller(int positionX, int positionY, int levelsToShow, int buttonsWidth, int buttonsHeight, String fontId, Color buttonsColor, Color buttonsHoverColor){
 		headers = new ArrayList<ScriptHeader>();
+		filteredHeaders =  new ArrayList<ScriptHeader>();
 		levelButtons = new ArrayList<Button>();
+		searchCharacterCount = 0;
 		searchField = new TextField();
 		searchField.setPosition(positionX + textFieldOffsetX, positionY + textFieldOffsetY);
 		searchField.setSize(buttonsWidth, 25);
@@ -46,7 +51,9 @@ public class MapScroller extends VisualComponent{
 		this.buttonsHeight = buttonsHeight;
 		this.buttonSpacing = 50;
 		loadHeaders();
+		sortHeaders();
 		loadLevels();
+		refreshButtons();
 	}
 
 	public void loadHeaders(){
@@ -54,8 +61,8 @@ public class MapScroller extends VisualComponent{
 	}
 
 	public void loadLevels(){
-		for(int i = 0; i < headers.size(); i++){
-			levelButtons.add(new Button(-100, -100, buttonsWidth, buttonsHeight, headers.get(i).getAttribute("Name"), buttonsColor, buttonsHoverColor, Color.WHITE, fontId));
+		for(int i = 0; i < filteredHeaders.size(); i++){
+			levelButtons.add(new Button(-100, -100, buttonsWidth, buttonsHeight, filteredHeaders.get(i).getAttribute("Name"), buttonsColor, buttonsHoverColor, Color.WHITE, fontId));
 			levelButtons.get(i).setTextPositionOffset(textOffsetX, textOffsetY);
 		}
 	}
@@ -105,9 +112,76 @@ public class MapScroller extends VisualComponent{
 
 	}
 
+	public void refreshButtons(){
+		filteredHeaders.clear();
+
+		for(int i = 0; i < headers.size(); i++){
+			if(startsWith(headers.get(i).getAttribute("Name"), searchField.getText())){
+				filteredHeaders.add(headers.get(i));
+			}
+		}
+
+		levelButtons.clear();
+		loadLevels();
+	}
+
+	public void sortHeaders(){
+
+		for(int i = 0; i < headers.size(); i++){
+			for(int j = i; j < headers.size(); j++){
+				if(headers.get(i).getAttribute("Name").compareTo(headers.get(j).getAttribute("Name")) > 0){
+					Hashtable<String, String> tempHeader = headers.get(i).getContents();
+					headers.get(i).setContents(headers.get(j).getContents());
+					headers.get(j).setContents(tempHeader);
+				}
+
+			}
+		}
+	}
+
+	public ScriptHeader getSelectedHeader(){
+		for(int i = 0; i < levelButtons.size(); i++){
+			if(levelButtons.get(i).isClicked()){
+				return filteredHeaders.get(i);
+			}
+		}
+		ScriptHeader value = new ScriptHeader();
+		value.setAttribute("Name", "");
+		value.setAttribute("Difficulty", "");
+		value.setAttribute("Creator", "");
+		return value;
+	}
+
+	public boolean startsWith(String source, String searched){
+		int size = 0;
+		boolean result = true;
+		if(searched.compareTo("") == 0){
+			return result;
+		}
+		if(source.length() > searched.length()){
+			size = searched.length();
+		}
+		else{
+			size = source.length();
+		}
+
+		for(int i = 0; i < size; i++){
+			if(source.charAt(i) != searched.charAt(i)){
+				result = false;
+			}
+		}
+		return result;
+	}
+
 	@Override
 	public void draw(Graphics graphics) {
-		//levelButtons.get(scrollIndex).draw(graphics, 200, 200);
+
+		if(searchCharacterCount != searchField.getText().length()){
+			searchCharacterCount = searchField.getText().length();
+			System.out.println("Search field has been modified");
+			refreshButtons();
+		}
+
 		for(int i = 0; i < levelButtons.size(); i++){
 			levelButtons.get(i).setPosition(-100, -100);
 		}
@@ -119,8 +193,8 @@ public class MapScroller extends VisualComponent{
 			}
 			levelButtons.get(i + scrollIndex).setPosition(positionX, positionY + i * buttonSpacing);
 			levelButtons.get(i + scrollIndex).draw(graphics);
-			//levelButtons.get(i + scrollIndex).draw(graphics, positionX, positionY + i * buttonSpacing);
 		}
 		searchField.draw(graphics);
+		//System.out.println(getSelectedHeader().getAttribute("Name"));
 	}
 }
