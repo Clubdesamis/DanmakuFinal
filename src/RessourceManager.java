@@ -26,7 +26,9 @@ public class RessourceManager {
         try{
             for(int i = 0; i < files.length; i++){
                 //System.out.println(files[i].getName());
-                addTexture(files[i].getName(), ImageIO.read(new File(Constants.TEXTURE_FOLDER + '/' + files[i].getName())));
+                if(files[i].isFile()){
+                    addTexture(files[i].getName(), ImageIO.read(new File(Constants.TEXTURE_FOLDER + '/' + files[i].getName())));
+                }
             }
         }
         catch(Exception e){}
