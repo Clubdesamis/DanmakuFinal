@@ -99,7 +99,7 @@ public class MapScroller extends VisualComponent{
 						break;
 					}
 				}
-				System.out.println(Integer.toString(scrollIndex));
+				//System.out.println(Integer.toString(scrollIndex));
 				break;
 			}
 			case KEY_TYPED -> {
@@ -178,7 +178,7 @@ public class MapScroller extends VisualComponent{
 
 		if(searchCharacterCount != searchField.getText().length()){
 			searchCharacterCount = searchField.getText().length();
-			System.out.println("Search field has been modified");
+			//System.out.println("Search field has been modified");
 			refreshButtons();
 		}
 

@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class Constants {
     public static final int WINDOW_HEIGHT = 960;
-    public static final int WINDOW_WIDTH = 1280;
+    public static final int WINDOW_WIDTH = 1080;
 
     //Millisecondes entre chaque frame refresh
     public static final int MILLISECONDS_PER_FRAME = 16;
@@ -13,6 +13,7 @@ public class Constants {
     public static final String LANGUAGE = "english";
 
     public static final String TEXTURE_FOLDER = "Textures";
+    public static final String BACK_SPRITE_FOLDER = "Textures/BackSprites";
     public static final String SCRIPT_FOLDER = "Scripts";
 
 

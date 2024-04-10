@@ -66,6 +66,10 @@ public class Button extends VisualComponent{
 		return isClicked;
 	}
 
+	public void setClicked(boolean state){
+		isClicked = state;
+	}
+
 
 	@Override
 	public void draw(Graphics graphics) {

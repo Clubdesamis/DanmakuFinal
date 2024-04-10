@@ -6,14 +6,17 @@ import java.util.Hashtable;
 
 public class RessourceManager {
     public Hashtable<String, BufferedImage> textures;
+    public Hashtable<String, BufferedImage> backSprites;
     public Hashtable<String, Font> fonts;
 
     public RessourceManager(){
         textures = new Hashtable<String, BufferedImage>();
+        backSprites = new Hashtable<String, BufferedImage>();
 
         fonts = new Hashtable<String, Font>();
 
         loadTextures();
+        loadBackSprites();
         loadFonts();
     }
 
@@ -25,6 +28,24 @@ public class RessourceManager {
                 //System.out.println(files[i].getName());
                 addTexture(files[i].getName(), ImageIO.read(new File(Constants.TEXTURE_FOLDER + '/' + files[i].getName())));
             }
+        }
+        catch(Exception e){}
+    }
+
+    private void loadBackSprites(){
+        File directory = new File(Constants.BACK_SPRITE_FOLDER);
+        File[] files = directory.listFiles();
+
+        try{
+            for(int i = 0; i < files.length; i++){
+                String tempPath = Constants.BACK_SPRITE_FOLDER + '/' + files[i].getName();
+                File frameFolder = new File(tempPath);
+                File[] frames = frameFolder.listFiles();
+                for(int j  = 0; j < frames.length; j++){
+                    int e = 1;
+                }
+            }
+
         }
         catch(Exception e){}
     }

@@ -6,5 +6,8 @@
 </META>
 
 <SCRIPT>
-	wait 10000
+	<LOOP> 1000
+		makeCircle 350 200 32 0.0 4.0 SmallPurpleProjectile.png 7
+		wait 500
+	</LOOP>
 </SCRIPT>
