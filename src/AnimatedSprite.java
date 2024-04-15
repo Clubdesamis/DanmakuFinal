@@ -5,12 +5,13 @@ public class AnimatedSprite extends VisualComponent{
 
 	private BufferedImage[] frames;
 	private int framesPerFrame;
-	private int positionX;
-	private int positionY;
+
 	private int frameCount;
 	private int frameIndex;
 	private int direction;
 	private int mode;
+	private int width;
+	private int height;
 	private Insets insets;
 
 	public final static int BACK_AND_FORTH = 1;
@@ -18,12 +19,14 @@ public class AnimatedSprite extends VisualComponent{
 	public final static int DIRECTION_FORWARD = 3;
 	public final static int DIRECTION_BACKWARD = 4;
 
-	public AnimatedSprite(int positionX, int positionY, BufferedImage[] frames, int framesPerFrame, int mode){
+	public AnimatedSprite(int positionX, int positionY, String spriteName, int framesPerFrame, int mode){
 		this.positionX = positionX;
 		this.positionY = positionY;
-		this.frames = frames;
+		this.frames = Game.ressourceManager.getAnimatedSprite(spriteName);
 		this.framesPerFrame = framesPerFrame;
 		this.mode = mode;
+		width = 0;
+		height = 0;
 		insets = Game.window.getInsets();
 		frameCount = 0;
 		frameIndex = 0;
@@ -54,6 +57,11 @@ public class AnimatedSprite extends VisualComponent{
 		this.mode = mode;
 	}
 
+	public void setSize(int width, int height){
+		this.width = width;
+		this.height = height;
+	}
+
 	@Override
 	public void notification(Observable.EventID id, AWTEvent e) {
 
@@ -61,10 +69,10 @@ public class AnimatedSprite extends VisualComponent{
 
 	@Override
 	public void draw(Graphics graphics) {
-		graphics.drawImage(frames[frameIndex], positionX + insets.left, positionY + insets.top, null);
+		graphics.drawImage(frames[frameIndex], positionX + insets.left - width / 2, positionY + insets.top - height / 2, null);
 	}
 
-	public void simulate(){
+	public void update(){
 		frameCount++;
 		if(frameCount == framesPerFrame){
 			frameCount = 0;
@@ -78,7 +86,12 @@ public class AnimatedSprite extends VisualComponent{
 				}
 			}
 			else{
-
+				if(frameIndex > 0){
+					frameIndex--;
+				}
+				else{
+					direction = DIRECTION_FORWARD;
+				}
 			}
 
 		}

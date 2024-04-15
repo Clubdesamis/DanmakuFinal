@@ -222,6 +222,10 @@ public class ScriptReader {
                                 container.addInstruction(InstructionMakeSpiral.build(argsArray));
                                 break;
                             }
+                            case Constants.INSTRUCTION_MOVE_ENEMY_TAG -> {
+                                container.addInstruction(InstructionMoveEnemy.build(argsArray));
+                                break;
+                            }
                         }
                         //container.addInstruction(new InstructionMakeCircle(200, 200, 32, (float)30.0, (float)4.0, Game.ressourceManager.getTexture("smallPurpleProjectile.png"), 0));
                     }

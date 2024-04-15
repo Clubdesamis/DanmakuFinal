@@ -56,7 +56,7 @@ public class InstructionMakeSpiral extends Instruction {
             double _trajectory = initialOffset + offset;
             double _tempOffset = (double)360.0 / (double)projectileCount;
 
-            Game.projectileManager.assignProjectile(positionX + FIRING_DISTANCE * (double)Math.cos(Math.toRadians((double)_trajectory)), positionY + FIRING_DISTANCE * (double)Math.sin(Math.toRadians((double)_trajectory)), (double)(projectileSpeed * Math.cos(Math.toRadians((double)_trajectory))), (double)(projectileSpeed * Math.sin(Math.toRadians((double)_trajectory))), image, projectileSize, id);
+            Game.enemyProjectileManager.assignProjectile(positionX + FIRING_DISTANCE * (double)Math.cos(Math.toRadians((double)_trajectory)), positionY + FIRING_DISTANCE * (double)Math.sin(Math.toRadians((double)_trajectory)), (double)(projectileSpeed * Math.cos(Math.toRadians((double)_trajectory))), (double)(projectileSpeed * Math.sin(Math.toRadians((double)_trajectory))), image, projectileSize, id);
             _trajectory += _tempOffset;
 
             frameCount = 0;
@@ -84,9 +84,28 @@ public class InstructionMakeSpiral extends Instruction {
 
 
     public static Instruction build(String[] arguments){
+
+        InstructionMakeSpiral instruction = null;
+        int _positionX;
+        int _positionY;
+
+        if(arguments[POSITION_X].equals(Constants.ARGUMENT_ENEMY_POSITION_X)){
+            _positionX = 0;
+        }
+        else{
+            _positionX = Integer.parseInt(arguments[POSITION_X]);
+        }
+
+        if(arguments[POSITION_Y].equals(Constants.ARGUMENT_ENEMY_POSITION_Y)){
+            _positionY = 0;
+        }
+        else{
+            _positionY = Integer.parseInt(arguments[POSITION_Y]);
+        }
+
         switch(arguments.length){
             case 10 ->{
-                return new InstructionMakeSpiral(Integer.parseInt(arguments[POSITION_X]), Integer.parseInt(arguments[POSITION_Y]), Integer.parseInt(arguments[PROJECTILE_COUNT]), Double.parseDouble(arguments[PROJECTILE_SPEED]), Integer.parseInt(arguments[FIRING_SPEED]), Double.parseDouble(arguments[ROTATION_SPEED]), Double.parseDouble(arguments[INITIAL_OFFSET]), Boolean.parseBoolean(arguments[CLOCKWISE]), Integer.parseInt(arguments[ID]) ,Game.ressourceManager.getTexture(arguments[IMAGE]));
+                instruction = new InstructionMakeSpiral(_positionX, _positionY, Integer.parseInt(arguments[PROJECTILE_COUNT]), Double.parseDouble(arguments[PROJECTILE_SPEED]), Integer.parseInt(arguments[FIRING_SPEED]), Double.parseDouble(arguments[ROTATION_SPEED]), Double.parseDouble(arguments[INITIAL_OFFSET]), Boolean.parseBoolean(arguments[CLOCKWISE]), Integer.parseInt(arguments[ID]) ,Game.ressourceManager.getTexture(arguments[IMAGE]));
                 //break;
             }
             default ->{

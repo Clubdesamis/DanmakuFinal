@@ -6,10 +6,12 @@ public class ProjectileManager {
     public Projectile[] projectiles;
 
     private int projectileIndex;
+    private int bufferSize;
 
-    public ProjectileManager(){
-        projectiles = new Projectile[Constants.PROJECTILE_COUNT];
-        for(int i = 0; i < Constants.PROJECTILE_COUNT; i++){
+    public ProjectileManager(int bufferSize){
+        projectiles = new Projectile[bufferSize];
+        this.bufferSize = bufferSize;
+        for(int i = 0; i < bufferSize; i++){
             projectiles[i] = new Projectile();
         }
         projectileIndex = 0;
@@ -20,11 +22,11 @@ public class ProjectileManager {
         while(true){
             if(!projectiles[tempIt].enabled){
                 projectiles[tempIt].enable(positionX, positionY, speedX, speedY, image);
-                projectileIndex = (tempIt + 1) % (Constants.PROJECTILE_COUNT - 1);
+                projectileIndex = (tempIt + 1) % (bufferSize - 1);
                 return;
             }else{
                 tempIt++;
-                tempIt %= (Constants.PROJECTILE_COUNT - 1);
+                tempIt %= (bufferSize - 1);
             }
         }
     }
@@ -34,17 +36,17 @@ public class ProjectileManager {
         while(true){
             if(!projectiles[tempIt].enabled){
                 projectiles[tempIt].enable(positionX, positionY, speedX, speedY, image, size, id);
-                projectileIndex = (tempIt + 1) % (Constants.PROJECTILE_COUNT - 1);
+                projectileIndex = (tempIt + 1) % (bufferSize - 1);
                 return;
             }else{
                 tempIt++;
-                tempIt %= (Constants.PROJECTILE_COUNT - 1);
+                tempIt %= (bufferSize - 1);
             }
         }
     }
 
     public void moveProjectiles(){
-        for(int i = 0; i < Constants.PROJECTILE_COUNT; i++){
+        for(int i = 0; i < bufferSize; i++){
             if(projectiles[i].enabled){
                 projectiles[i].move();
             }
@@ -53,7 +55,7 @@ public class ProjectileManager {
     }
 
     public void drawProjectiles(Graphics g){
-        for(int i = 0; i < Constants.PROJECTILE_COUNT; i++){
+        for(int i = 0; i < bufferSize; i++){
             if(projectiles[i].enabled){
                 projectiles[i].draw(g);
             }
@@ -61,7 +63,7 @@ public class ProjectileManager {
     }
 
     public boolean checkCollision(double x, double y){
-        for(int i = 0; i < Constants.PROJECTILE_COUNT; i++){
+        for(int i = 0; i < bufferSize; i++){
             if(projectiles[i].enabled){
                 double distance = Math.sqrt((Math.pow(((double)projectiles[i].positionX - x), (double)2.0)) + (Math.pow(((double)projectiles[i].positionY - y), (double)2.0)));
                 if(distance < projectiles[i].collisionRadius){
@@ -74,7 +76,7 @@ public class ProjectileManager {
     }
 
     public void removeOutOfBound(){
-        for(int i = 0; i < Constants.PROJECTILE_COUNT; i++){
+        for(int i = 0; i < bufferSize; i++){
             if(projectiles[i].enabled) {
                 if (((projectiles[i].positionX < 0) || (projectiles[i].positionX > Constants.WINDOW_WIDTH)) || ((projectiles[i].positionY < 0) || (projectiles[i].positionY > Constants.WINDOW_HEIGHT))) {
                     projectiles[i].disable();

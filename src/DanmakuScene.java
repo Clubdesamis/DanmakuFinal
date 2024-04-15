@@ -1,11 +1,13 @@
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class DanmakuScene implements Scene{
 
 
     private Insets insets;
+    private AnimatedSprite playerSprite;
+    private PlayableCharacter playerCharacter;
+    private EnemyCharacter enemyCharacter;
 
     public DanmakuScene() throws IOException {
 
@@ -14,7 +16,11 @@ public class DanmakuScene implements Scene{
     public void init() throws IOException {
 
         insets = Game.window.getInsets();
-        //Game.projectileScript.addInstruction(Game.scriptReader.loadScript("Script1.club"));
+        playerCharacter = new PlayableCharacter(5.0, "Reisen", 6, "ReisenProjectile.png");
+        enemyCharacter = Game.enemyCharacter;
+
+
+        Game.observable.add(playerCharacter, Observable.EventID.KEY_PRESSED, Observable.EventID.KEY_RELEASED);
 
     }
 
@@ -26,13 +32,16 @@ public class DanmakuScene implements Scene{
     @Override
     public void render(Graphics graphics) {
 
-        //graphics.drawImage(Game.ressourceManager.getTexture("UIBackground1.png"), 822 + insets.left, 0 + insets.top, null);
         graphics.drawImage(Game.ressourceManager.getTexture("Background3.png"), 0 + insets.left, 0 + insets.top, null);
 
-        Game.projectileManager.drawProjectiles(graphics);
+        Game.playerProjectileManager.drawProjectiles(graphics);
+        Game.enemyProjectileManager.drawProjectiles(graphics);
 
         graphics.drawImage(Game.ressourceManager.getTexture("UIBackground3.png"), 700 + insets.left, 0 + insets.top, null);
         graphics.drawImage(Game.ressourceManager.getTexture("LoginShade.png"), 700 + insets.left, 0 + insets.top, null);
+
+        playerCharacter.draw(graphics);
+        enemyCharacter.draw(graphics);
 
 
     }
@@ -40,7 +49,11 @@ public class DanmakuScene implements Scene{
     @Override
     public void simulate() {
         Game.projectileScript.executeInstruction();
-        Game.projectileManager.moveProjectiles();
+        Game.playerProjectileManager.moveProjectiles();
+        Game.enemyProjectileManager.moveProjectiles();
+
+        playerCharacter.update();
+        enemyCharacter.update();
     }
 
     @Override

@@ -6,8 +6,34 @@
 </META>
 
 <SCRIPT>
-	<LOOP> 1000
-		makeCircle 350 200 32 0.0 4.0 SmallPurpleProjectile.png 7
+	wait 2000
+	<PARALLEL>
+		moveEnemy 100 100 2.0
+		<LOOP> 4
+			makeCircle enemyPositionX enemyPositionY 32 0.0 4.0 SmallPurpleProjectile.png 7
+			wait 350
+		</LOOP>
+	</PARALLEL>
+
+	wait 500
+
+	<LOOP> 3
+		<PARALLEL>
+			moveEnemy 600 100 2.0
+			<LOOP> 11
+				makeCircle enemyPositionX enemyPositionY 32 0.0 4.0 SmallPurpleProjectile.png 7
+				wait 340
+			</LOOP>
+		</PARALLEL>
+		wait 500
+		<PARALLEL>
+			moveEnemy 100 100 2.0
+			<LOOP> 11
+				makeCircle enemyPositionX enemyPositionY 32 0.0 4.0 SmallPurpleProjectile.png 7
+				wait 340
+			</LOOP>
+		</PARALLEL>
 		wait 500
 	</LOOP>
+
 </SCRIPT>

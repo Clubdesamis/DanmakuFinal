@@ -6,17 +6,17 @@ import java.util.Hashtable;
 
 public class RessourceManager {
     public Hashtable<String, BufferedImage> textures;
-    public Hashtable<String, BufferedImage> backSprites;
+    public Hashtable<String, BufferedImage[]> animatedSprites;
     public Hashtable<String, Font> fonts;
 
     public RessourceManager(){
         textures = new Hashtable<String, BufferedImage>();
-        backSprites = new Hashtable<String, BufferedImage>();
+        animatedSprites = new Hashtable<String, BufferedImage[]>();
 
         fonts = new Hashtable<String, Font>();
 
         loadTextures();
-        loadBackSprites();
+        loadAnimatedSprites();
         loadFonts();
     }
 
@@ -34,18 +34,21 @@ public class RessourceManager {
         catch(Exception e){}
     }
 
-    private void loadBackSprites(){
-        File directory = new File(Constants.BACK_SPRITE_FOLDER);
+    private void loadAnimatedSprites(){
+        File directory = new File(Constants.ANIMATED_SPRITE_FOLDER);
         File[] files = directory.listFiles();
 
         try{
             for(int i = 0; i < files.length; i++){
-                String tempPath = Constants.BACK_SPRITE_FOLDER + '/' + files[i].getName();
+                String tempPath = Constants.ANIMATED_SPRITE_FOLDER + '/' + files[i].getName();
                 File frameFolder = new File(tempPath);
                 File[] frames = frameFolder.listFiles();
+                BufferedImage[] frameImages = new BufferedImage[frames.length];
                 for(int j  = 0; j < frames.length; j++){
-                    int e = 1;
+                    frameImages[j] = ImageIO.read(frames[j]);
                 }
+                //String name = files[i].getName().substring(0, files[i].getName().length() - 4);
+                animatedSprites.put(files[i].getName(), frameImages);
             }
 
         }
@@ -58,6 +61,10 @@ public class RessourceManager {
 
     public BufferedImage getTexture(String name){
         return textures.get(name);
+    }
+
+    public BufferedImage[] getAnimatedSprite(String name){
+        return animatedSprites.get(name);
     }
 
     public void loadFonts(){

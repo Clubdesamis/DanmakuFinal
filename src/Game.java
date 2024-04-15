@@ -16,11 +16,13 @@ public class Game {
     public static long timeToSleep = 0;
     public static BufferStrategy bufferStrategy;
 
-    public static ProjectileManager projectileManager;
+    public static ProjectileManager enemyProjectileManager;
+    public static ProjectileManager playerProjectileManager;
 
     public static ProjectileScript projectileScript;
     public static RessourceManager ressourceManager;
     public static ScriptReader scriptReader;
+    public static EnemyCharacter enemyCharacter;
 
     public static DialogManager dialogManager;
 
@@ -34,9 +36,7 @@ public class Game {
         window.setDefaultCloseOperation(EXIT_ON_CLOSE);
         window.createBufferStrategy(2);
         window.setIgnoreRepaint(true);
-        //window.setOpacity((float)0.0);
-        //window.setUndecorated(true);
-        //window.setBackground(new Color(0, 0, 0, 0));
+
         Languages.init();
         dialogManager = new DialogManager();
         dialogManager.loadLanguage(Constants.LANGUAGE);
@@ -44,8 +44,10 @@ public class Game {
         bufferStrategy = window.getBufferStrategy();
         ressourceManager = new RessourceManager();
         scriptReader = new ScriptReader();
-        projectileManager = new ProjectileManager();
+        enemyProjectileManager = new ProjectileManager(Constants.ENEMY_PROJECTILE_BUFFER_SIZE);
+        playerProjectileManager = new ProjectileManager(Constants.PLAYER_PROJECTILE_BUFFER_SIZE);
         projectileScript = new ProjectileScript();
+        enemyCharacter = new EnemyCharacter(2.0, "CirnoEnemy");
 
         observable = new Observable();
         window.addMouseListener(observable);
@@ -74,6 +76,7 @@ public class Game {
                 newTime = System.nanoTime();
                 deltaTime = newTime - oldTime;
                 timeToSleep = Constants.MILLISECONDS_PER_FRAME - deltaTime / 1000000;
+                System.out.println(Long.toString(timeToSleep));
 
                 if(timeToSleep <= 0){
                     System.out.println("Invalid timeout value in main loop, defaulting to skipping thread sleep");
