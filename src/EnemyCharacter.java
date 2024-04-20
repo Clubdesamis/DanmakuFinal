@@ -26,6 +26,8 @@ public class EnemyCharacter extends VisualComponent{
 	public final int SPRITE_LEFT = 1;
 	public final int SPRITE_RIGHT = 2;
 
+	public final double collisionRadius = 30;
+
 	public EnemyCharacter(double speed, String spriteName){
 		speedScalar = speed;
 		setPosition(defaultPositionX, defaultPositionY);
@@ -58,6 +60,19 @@ public class EnemyCharacter extends VisualComponent{
 	public void setPosition(double positionX, double positionY){
 		this.positionX = positionX;
 		this.positionY = positionY;
+	}
+
+	public void resetPosition(){
+		setPosition(defaultPositionX, defaultPositionY);
+		speedX = 0;
+		speedY = 0;
+		spriteIndex = SPRITE_FORWARD;
+		targetPositionX = positionX;
+		targetPositionY = positionY;
+	}
+
+	public double getCollisionRadius(){
+		return collisionRadius;
 	}
 
 	public void setTargetPosition(double targetPositionX, double targetPositionY){

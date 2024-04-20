@@ -45,6 +45,8 @@ public class Constants {
 
     public static final String[] META_ARGUMENTS = {"Name", "Difficulty", "Creator"};
 
+    public static final int defaultLifeCount = 5;
+
     public static final int INSTRUCTION_LOOP_INTERNAL_ID = 1;
     public static final int INSTRUCTION_PARALLEL_INTERNAL_ID = 2;
 

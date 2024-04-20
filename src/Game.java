@@ -44,8 +44,8 @@ public class Game {
         bufferStrategy = window.getBufferStrategy();
         ressourceManager = new RessourceManager();
         scriptReader = new ScriptReader();
-        enemyProjectileManager = new ProjectileManager(Constants.ENEMY_PROJECTILE_BUFFER_SIZE);
-        playerProjectileManager = new ProjectileManager(Constants.PLAYER_PROJECTILE_BUFFER_SIZE);
+        enemyProjectileManager = new ProjectileManager(Constants.ENEMY_PROJECTILE_BUFFER_SIZE, false);
+        playerProjectileManager = new ProjectileManager(Constants.PLAYER_PROJECTILE_BUFFER_SIZE, true);
         projectileScript = new ProjectileScript();
         enemyCharacter = new EnemyCharacter(2.0, "CirnoEnemy");
 
@@ -76,7 +76,7 @@ public class Game {
                 newTime = System.nanoTime();
                 deltaTime = newTime - oldTime;
                 timeToSleep = Constants.MILLISECONDS_PER_FRAME - deltaTime / 1000000;
-                System.out.println(Long.toString(timeToSleep));
+                //System.out.println(Long.toString(timeToSleep));
 
                 if(timeToSleep <= 0){
                     System.out.println("Invalid timeout value in main loop, defaulting to skipping thread sleep");
@@ -122,6 +122,7 @@ public class Game {
         Game.getSceneManager().add("testScene", new DanmakuScene());
         Game.getSceneManager().add("signInScene", new SignInScene());
         Game.getSceneManager().add("mainMenuScene", new MainMenuScene());
+        Game.getSceneManager().add("mapResultScene", new MapResultScene());
         Game.getSceneManager().push("signInScene");
         Game.loop();
     }

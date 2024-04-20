@@ -7,10 +7,12 @@ public class ProjectileManager {
 
     private int projectileIndex;
     private int bufferSize;
+    private boolean deleteOnCollision;
 
-    public ProjectileManager(int bufferSize){
+    public ProjectileManager(int bufferSize, boolean deleteOnCollision){
         projectiles = new Projectile[bufferSize];
         this.bufferSize = bufferSize;
+        this.deleteOnCollision = deleteOnCollision;
         for(int i = 0; i < bufferSize; i++){
             projectiles[i] = new Projectile();
         }
@@ -28,6 +30,12 @@ public class ProjectileManager {
                 tempIt++;
                 tempIt %= (bufferSize - 1);
             }
+        }
+    }
+
+    public void clear(){
+        for(int i = 0; i < projectiles.length; i++){
+            projectiles[i].disable();
         }
     }
 
@@ -63,16 +71,52 @@ public class ProjectileManager {
     }
 
     public boolean checkCollision(double x, double y){
+        int collisionCount = 0;
         for(int i = 0; i < bufferSize; i++){
             if(projectiles[i].enabled){
                 double distance = Math.sqrt((Math.pow(((double)projectiles[i].positionX - x), (double)2.0)) + (Math.pow(((double)projectiles[i].positionY - y), (double)2.0)));
                 if(distance < projectiles[i].collisionRadius){
-                    System.out.println("Collision detected!");
+                    //System.out.println("Collision detected!");
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    public boolean checkCollisionWithRadius(double x, double y, double radius){
+        for(int i = 0; i < bufferSize; i++){
+            if(projectiles[i].enabled){
+                double distance = Math.sqrt((Math.pow(((double)projectiles[i].positionX - x), (double)2.0)) + (Math.pow(((double)projectiles[i].positionY - y), (double)2.0)));
+                //System.out.println(Double.toString(distance));
+                if(distance < radius){
+                    //System.out.println("Collision detected!");
+                    if(deleteOnCollision){
+                        projectiles[i].disable();
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public int getCollisionCountWithRadius(double x, double y, double radius){
+        int collisionCount = 0;
+        for(int i = 0; i < bufferSize; i++){
+            if(projectiles[i].enabled){
+                double distance = Math.sqrt((Math.pow(((double)projectiles[i].positionX - x), (double)2.0)) + (Math.pow(((double)projectiles[i].positionY - y), (double)2.0)));
+                //System.out.println(Double.toString(distance));
+                if(distance < radius){
+                    //System.out.println("Collision detected!");
+                    if(deleteOnCollision){
+                        projectiles[i].disable();
+                    }
+                    collisionCount++;
+                }
+            }
+        }
+        return collisionCount;
     }
 
     public void removeOutOfBound(){

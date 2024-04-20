@@ -21,5 +21,4 @@ public class DialogManager {
 			return dialogs.get(id);
 		}
 	}
-
 }

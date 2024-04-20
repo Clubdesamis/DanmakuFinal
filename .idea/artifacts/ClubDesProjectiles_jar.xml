@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ClubDesProjectiles:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ClubDesProjectiles_jar</output-path>
+    <root id="archive" name="ClubDesProjectiles.jar">
+      <element id="module-output" name="ClubDesProjectiles" />
+    </root>
+  </artifact>
+</component>

@@ -48,8 +48,6 @@ public class InstructionLoop extends InstructionContainer{
         }
         return false;
     }
-
-
     public int getInstructionId(){
         return Constants.INSTRUCTION_LOOP_INTERNAL_ID;
     }

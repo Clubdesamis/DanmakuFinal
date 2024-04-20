@@ -28,12 +28,11 @@ public class MainMenuScene implements Scene{
 		playButton = new Button(650, 325,  300, 50, Game.dialogManager.getDialog("play_button_label"), new Color(14, 132, 168, 128), new Color(14, 132, 168, 255), Color.WHITE, "sign_in");
 		playButton.setTextPositionOffset(100, 25);
 
-		backgroundColor = new Color(0, 0, 0, 140);
+		backgroundColor = new Color(0, 0, 0, 180);
 		Game.observable.add(mapScroller, Observable.EventID.MOUSE_CLICKED, Observable.EventID.MOUSE_WHEEL_MOVED, Observable.EventID.MOUSE_MOVED, Observable.EventID.KEY_TYPED);
 		Game.observable.add(playButton, Observable.EventID.MOUSE_CLICKED, Observable.EventID.MOUSE_MOVED);
 
 		mapFileName = "";
-
 	}
 
 	@Override
@@ -61,6 +60,7 @@ public class MainMenuScene implements Scene{
 		if(playButton.isClicked()){
 			System.out.println(mapName.getText());
 			playButton.setClicked(false);
+
 			try{
 				Game.getSceneManager().push("testScene");
 				Game.projectileScript.addInstruction(Game.scriptReader.loadScript(mapFileName));
@@ -72,6 +72,7 @@ public class MainMenuScene implements Scene{
 		}
 		else{
 			mapFileName = mapScroller.getSelectedHeader().getAttribute("FileName");
+			Game.projectileScript.setScriptHeader(mapScroller.getSelectedHeader());
 		}
 		mapName.setText(mapScroller.getSelectedHeader().getAttribute("Name"));
 		mapCreator.setText(mapScroller.getSelectedHeader().getAttribute("Creator"));

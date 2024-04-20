@@ -12,7 +12,14 @@ public class PlayableCharacter extends VisualComponent{
 	private int framesSinceLastShot;
 	private BufferedImage regularProjectile;
 	private AnimatedSprite sprite;
+	private boolean isAlive;
+	private int deathCount;
+	private long characterDeathTime;
+	private boolean isImmune;
+	private final int respawnTimeMS = 1000;
+	private final int immunityTimeMS = 1000;
 	private boolean[] keyInputs = {false, false, false, false, false};
+
 
 	private final int KEY_UP = 0;
 	private final int KEY_DOWN = 1;
@@ -30,6 +37,8 @@ public class PlayableCharacter extends VisualComponent{
 	private final int projectileOffsetX = 10;
 	private final int projectileOffsetY = 15;
 
+
+
 	public PlayableCharacter(double speed, String spriteName, int spriteFramesPerFrame, String regularProjectileName){
 		this.speedX = speed;
 		this.speedY = speed;
@@ -40,6 +49,18 @@ public class PlayableCharacter extends VisualComponent{
 		this.regularProjectile = Game.ressourceManager.getTexture(regularProjectileName);
 		shootingInterval = defaultShootingInterval;
 		framesSinceLastShot = shootingInterval;
+		isAlive = true;
+		characterDeathTime = 0;
+		isImmune = false;
+		deathCount = 0;
+		for(int i = 0; i < keyInputs.length; i++){
+			keyInputs[i] = false;
+		}
+	}
+
+	public void resetPosition(){
+		this.positionX = defaultPositionX;
+		this.positionY = defaultPositionY;
 	}
 
 	public double getPositionX() {
@@ -93,6 +114,9 @@ public class PlayableCharacter extends VisualComponent{
 	public int getShootingInterval() {
 		return shootingInterval;
 	}
+	public int getDeathCount(){
+		return deathCount;
+	}
 
 	public void setShootingInterval(int shootingInterval) {
 		this.shootingInterval = shootingInterval;
@@ -104,6 +128,23 @@ public class PlayableCharacter extends VisualComponent{
 
 	public double getCenteredY(){
 		return positionY + height / 2;
+	}
+
+	public boolean isAlive(){
+		return isAlive;
+	}
+
+	public void setAlive(boolean b){
+		isAlive = b;
+		if(!b){
+			deathCount++;
+		}
+	}
+
+	public void clearKeyInputs(){
+		for(int i = 0; i < keyInputs.length; i++){
+			keyInputs[i] = false;
+		}
 	}
 	public void shootProjectile(){
 		framesSinceLastShot++;
@@ -118,7 +159,37 @@ public class PlayableCharacter extends VisualComponent{
 		}
 	}
 
+	public boolean checkCollision(){
+		return Game.enemyProjectileManager.checkCollision(positionX, positionY);
+	}
+
 	public void update(){
+
+		framesSinceLastShot++;
+
+		long _time = System.currentTimeMillis();
+
+		if(!isAlive){
+			if(_time - characterDeathTime >= respawnTimeMS){
+				setAlive(true);
+				isImmune = true;
+			}
+		}
+
+		if(!isAlive){
+			return;
+		}
+
+		if(isImmune){
+			if(_time - characterDeathTime >= respawnTimeMS + immunityTimeMS){
+				isImmune = false;
+			}
+		}
+
+		if(isAlive && !isImmune && checkCollision()){
+			setAlive(false);
+			characterDeathTime = System.currentTimeMillis();
+		}
 
 		if(keyInputs[KEY_UP])
 			positionY -= speedY;
@@ -129,12 +200,9 @@ public class PlayableCharacter extends VisualComponent{
 		if(keyInputs[KEY_RIGHT])
 			positionX += speedX;
 
-		framesSinceLastShot++;
 		shootProjectile();
 		sprite.setPosition((int)positionX, (int)positionY);
 		sprite.update();
-
-		Game.enemyProjectileManager.checkCollision(positionX, positionY);
 	}
 
 	@Override
@@ -195,6 +263,9 @@ public class PlayableCharacter extends VisualComponent{
 
 	@Override
 	public void draw(Graphics graphics) {
+		if(!isAlive){
+			return;
+		}
 		sprite.draw(graphics);
 	}
 }

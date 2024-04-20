@@ -40,7 +40,9 @@ public class ScriptReader {
 
                         for(int j = 1; j < lineWords.length; j++){
                             data += lineWords[j];
-                            data += " ";
+                            if(j < lineWords.length - 1){
+                                data += " ";
+                            }
                         }
                         header.setAttribute(name, data);
                         System.out.println(name + "   " + header.getAttribute(name));

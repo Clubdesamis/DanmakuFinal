@@ -5,7 +5,6 @@ public class AnimatedSprite extends VisualComponent{
 
 	private BufferedImage[] frames;
 	private int framesPerFrame;
-
 	private int frameCount;
 	private int frameIndex;
 	private int direction;

@@ -82,6 +82,7 @@ public class SignInScene implements Scene{
 	@Override
 	public void simulate() {
 		if(signInButton.isClicked()){
+			signInButton.setClicked(false);
 			try{
 				Game.sceneManager.push("mainMenuScene");
 			}

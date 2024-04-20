@@ -26,5 +26,4 @@ public class InstructionSequence extends InstructionContainer{
         }
         return false;
     }
-
 }

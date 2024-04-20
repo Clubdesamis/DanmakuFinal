@@ -14,6 +14,9 @@ public class InstructionMakeSpiral extends Instruction {
     private double initialOffset;
     private BufferedImage image;
 
+    private boolean fetchEnemyPositionX;
+    private boolean fetchEnemyPositionY;
+
     private final double FIRING_DISTANCE = 50;
 
     int frameCount = 0;
@@ -44,12 +47,30 @@ public class InstructionMakeSpiral extends Instruction {
         this.clockwise = clockwise;
         this.internalID = id;
         this.image = image;
+        fetchEnemyPositionX = false;
+        fetchEnemyPositionY = false;
     }
 
     public int getInstructionId(){
         return Constants.INSTRUCTION_MAKESPIRAL_INTERNAL_ID;
     }
+
+    public void setFetchPositionY(boolean b) {
+        this.fetchEnemyPositionY = b;
+    }
+
+    public void setFetchPositionX(boolean b) {
+        this.fetchEnemyPositionX = b;
+    }
     public boolean execute(){
+
+        if(fetchEnemyPositionX){
+            positionX = (int)Game.enemyCharacter.getPositionX();
+        }
+
+        if(fetchEnemyPositionY){
+            positionY = (int)Game.enemyCharacter.getPositionY();
+        }
 
         frameCount++;
         if(frameCount == firingSpeed){
@@ -113,6 +134,14 @@ public class InstructionMakeSpiral extends Instruction {
                 break;
             }
         }
-        return null;
+
+        if(arguments[POSITION_X].equals(Constants.ARGUMENT_ENEMY_POSITION_X)){
+            instruction.setFetchPositionX(true);
+        }
+        if(arguments[POSITION_Y].equals(Constants.ARGUMENT_ENEMY_POSITION_Y)){
+            instruction.setFetchPositionY(true);
+        }
+
+        return instruction;
     }
 }
