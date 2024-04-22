@@ -191,14 +191,26 @@ public class PlayableCharacter extends VisualComponent{
 			characterDeathTime = System.currentTimeMillis();
 		}
 
-		if(keyInputs[KEY_UP])
-			positionY -= speedY;
-		if(keyInputs[KEY_DOWN])
-			positionY += speedY;
-		if(keyInputs[KEY_LEFT])
-			positionX -= speedX;
-		if(keyInputs[KEY_RIGHT])
-			positionX += speedX;
+		if(keyInputs[KEY_UP]){
+			if(positionY - height / 2 > 0){
+				positionY -= speedY;
+			}
+		}
+		if(keyInputs[KEY_DOWN]){
+			if(positionY + height + height / 2 < 960){
+				positionY += speedY;
+			}
+		}
+		if(keyInputs[KEY_LEFT]){
+			if(positionX - width / 2 > 0){
+				positionX -= speedX;
+			}
+		}
+		if(keyInputs[KEY_RIGHT]){
+			if(positionX + width / 2 < 700){
+				positionX += speedX;
+			}
+		}
 
 		shootProjectile();
 		sprite.setPosition((int)positionX, (int)positionY);
@@ -210,52 +222,38 @@ public class PlayableCharacter extends VisualComponent{
 		char keyCode = ((KeyEvent)e).getKeyChar();
 		switch(id){
 			case KEY_PRESSED -> {
-				switch(keyCode){
-					case Constants.UP_KEYCODE -> {
-						keyInputs[KEY_UP] = true;
-						break;
-					}
-					case Constants.DOWN_KEYCODE -> {
-						keyInputs[KEY_DOWN] = true;
-						break;
-					}
-					case Constants.LEFT_KEYCODE -> {
-						keyInputs[KEY_LEFT] = true;
-						break;
-					}
-					case Constants.RIGHT_KEYCODE -> {
-						keyInputs[KEY_RIGHT] = true;
-						break;
-					}
-					case Constants.SHOOT_KEYCODE -> {
-						keyInputs[KEY_SHOOT] = true;
-						break;
-					}
+				if(keyCode == Variables.UP_KEYCODE){
+					keyInputs[KEY_UP] = true;
 				}
-				break;
+				else if(keyCode == Variables.DOWN_KEYCODE){
+					keyInputs[KEY_DOWN] = true;
+				}
+				else if(keyCode == Variables.LEFT_KEYCODE){
+					keyInputs[KEY_LEFT] = true;
+				}
+				else if(keyCode == Variables.RIGHT_KEYCODE){
+					keyInputs[KEY_RIGHT] = true;
+				}
+				else if(keyCode == Variables.SHOOT_KEYCODE){
+					keyInputs[KEY_SHOOT] = true;
+				}
 			}
 			case KEY_RELEASED -> {
-				switch(keyCode){
-					case Constants.UP_KEYCODE -> {
-						keyInputs[KEY_UP] = false;
-						break;
-					}
-					case Constants.DOWN_KEYCODE -> {
-						keyInputs[KEY_DOWN] = false;
-						break;
-					}
-					case Constants.LEFT_KEYCODE -> {
-						keyInputs[KEY_LEFT] = false;
-						break;
-					}
-					case Constants.RIGHT_KEYCODE -> {
-						keyInputs[KEY_RIGHT] = false;
-						break;
-					}
-					case Constants.SHOOT_KEYCODE -> {
-						keyInputs[KEY_SHOOT] = false;
-						break;
-					}
+
+				if(keyCode == Variables.UP_KEYCODE){
+					keyInputs[KEY_UP] = false;
+				}
+				else if(keyCode == Variables.DOWN_KEYCODE){
+					keyInputs[KEY_DOWN] = false;
+				}
+				else if(keyCode == Variables.LEFT_KEYCODE){
+					keyInputs[KEY_LEFT] = false;
+				}
+				else if(keyCode == Variables.RIGHT_KEYCODE){
+					keyInputs[KEY_RIGHT] = false;
+				}
+				else if(keyCode == Variables.SHOOT_KEYCODE){
+					keyInputs[KEY_SHOOT] = false;
 				}
 			}
 		}

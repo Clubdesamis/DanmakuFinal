@@ -68,10 +68,10 @@ public class RessourceManager {
     }
 
     public void loadFonts(){
-        addFont("sign_in", new Font("Arial", Font.BOLD, 22));
-        addFont("sign_in_label", new Font("Arial", Font.BOLD, 16));
-        addFont("credentials", new Font("Arial", Font.PLAIN, 16));
-        addFont("large_font", new Font("Arial", Font.PLAIN, 60));
+        addFont("sign_in", new Font("Noto Sans JP", Font.BOLD, 22));
+        addFont("sign_in_label", new Font("Noto Sans JP", Font.BOLD, 16));
+        addFont("credentials", new Font("Noto Sans JP", Font.PLAIN, 16));
+        addFont("large_font", new Font("Noto Sans JP", Font.PLAIN, 60));
     }
 
     public void addFont(String name, Font font){

@@ -10,6 +10,7 @@ public class SignInScene implements Scene{
 	private Label signInLabel;
 	private Label userNameLabel;
 	private Label passwordLabel;
+	private Label loginErrorLabel;
 
 	private Button signInButton;
 
@@ -40,6 +41,9 @@ public class SignInScene implements Scene{
 		passwordLabel = new Label(Game.dialogManager.getDialog("password_label"), "sign_in_label", Color.WHITE);
 		passwordLabel.setPosition(75, 510);
 
+		loginErrorLabel = new Label("", "sign_in_label", Color.RED);
+		loginErrorLabel.setPosition(75, 620);
+
 		passwordField = new TextField();
 		passwordField.setPosition(75, 540);
 		passwordField.setSize(350, 25);
@@ -58,6 +62,7 @@ public class SignInScene implements Scene{
 		visualComponents.add(passwordLabel);
 		visualComponents.add(passwordField);
 		visualComponents.add(signInButton);
+		visualComponents.add(loginErrorLabel);
 
 		Game.observable.add(userNameField, Observable.EventID.MOUSE_CLICKED, Observable.EventID.KEY_TYPED);
 		Game.observable.add(passwordField, Observable.EventID.MOUSE_CLICKED, Observable.EventID.KEY_TYPED);
@@ -77,17 +82,48 @@ public class SignInScene implements Scene{
 		for(int i = 0; i < visualComponents.size(); i++){
 			visualComponents.get(i).draw(graphics);
 		}
+
 	}
 
 	@Override
 	public void simulate() {
 		if(signInButton.isClicked()){
 			signInButton.setClicked(false);
-			try{
-				Game.sceneManager.push("mainMenuScene");
-			}
-			catch(Exception e){}
+			loginErrorLabel.setText("");
+			String username = userNameField.getText();
+			String password = passwordField.getText();
 
+			if(userNameField.getText().equals("") && passwordField.getText().equals("")){
+				Variables.username = "";
+				Variables.password = "";
+				Variables.connected = false;
+				try{
+					Game.sceneManager.push("mainMenuScene");
+				}
+				catch(Exception e){}
+			}
+			else{
+				int response = Game.networkInterface.validateLogin(username, password);
+				//Game.networkInterface.testCat();
+				//int response = -1;
+				if((response == NetworkInterface.INVALID_ID) || (response == NetworkInterface.INVALID_PASSWORD)){
+					loginErrorLabel.setText(Game.dialogManager.getDialog("sign_in_invalid_credentials"));
+					userNameField.setText("");
+					passwordField.setText("");
+				}
+				else if((response == NetworkInterface.INVALID_SERVER_RESPONSE) || (response == NetworkInterface.NO_RESPONSE_FROM_SERVER)){
+					loginErrorLabel.setText((Game.dialogManager.getDialog("sign_in_server_error")));
+				}
+				else if(response == NetworkInterface.VALID_RESPONSE){
+					Variables.username = userNameField.getText();
+					Variables.password = passwordField.getText();
+					Variables.connected = true;
+					try{
+						Game.sceneManager.push("mainMenuScene");
+					}
+					catch(Exception e){}
+				}
+			}
 		}
 	}
 

@@ -57,7 +57,7 @@ public class MapScroller extends VisualComponent{
 	}
 
 	public void loadHeaders(){
-		headers = Game.scriptReader.readAllHeaders();
+		headers = Game.scriptReader.readAllHeaders(Constants.SCRIPT_FOLDER);
 	}
 
 	public void loadLevels(){

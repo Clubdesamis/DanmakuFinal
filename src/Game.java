@@ -21,9 +21,10 @@ public class Game {
 
     public static ProjectileScript projectileScript;
     public static RessourceManager ressourceManager;
+    public static configHandler configHandler;
+    public static NetworkInterface networkInterface;
     public static ScriptReader scriptReader;
     public static EnemyCharacter enemyCharacter;
-
     public static DialogManager dialogManager;
 
     public static Observable observable;
@@ -36,14 +37,18 @@ public class Game {
         window.setDefaultCloseOperation(EXIT_ON_CLOSE);
         window.createBufferStrategy(2);
         window.setIgnoreRepaint(true);
+        networkInterface = new NetworkInterface();
 
+        scriptReader = new ScriptReader();
+
+        configHandler = new configHandler();
+        configHandler.loadConfig();
         Languages.init();
         dialogManager = new DialogManager();
-        dialogManager.loadLanguage(Constants.LANGUAGE);
+        dialogManager.loadLanguage(Variables.LANGUAGE);
         sceneManager = new SceneManager();
         bufferStrategy = window.getBufferStrategy();
         ressourceManager = new RessourceManager();
-        scriptReader = new ScriptReader();
         enemyProjectileManager = new ProjectileManager(Constants.ENEMY_PROJECTILE_BUFFER_SIZE, false);
         playerProjectileManager = new ProjectileManager(Constants.PLAYER_PROJECTILE_BUFFER_SIZE, true);
         projectileScript = new ProjectileScript();
@@ -117,6 +122,7 @@ public class Game {
     }
 
     public static void main(String[] args) throws IOException {
+
         System.out.println("Hello world!");
         Game.init();
         Game.getSceneManager().add("testScene", new DanmakuScene());
@@ -125,5 +131,6 @@ public class Game {
         Game.getSceneManager().add("mapResultScene", new MapResultScene());
         Game.getSceneManager().push("signInScene");
         Game.loop();
+
     }
 }

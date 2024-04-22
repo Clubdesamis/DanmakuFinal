@@ -11,12 +11,12 @@ public class ScriptReader {
         //headers = new ArrayList<ScriptHeader>();
         metadata = new Hashtable<String, String>();
 
-        readAllHeaders();
+        readAllHeaders(Constants.SCRIPT_FOLDER);
     }
 
-    public ArrayList<ScriptHeader> readAllHeaders(){
+    public ArrayList<ScriptHeader> readAllHeaders(String folderName){
         ArrayList<ScriptHeader> headers = new ArrayList<ScriptHeader>();
-        File directory = new File(Constants.SCRIPT_FOLDER);
+        File directory = new File(folderName);
         File[] files = directory.listFiles();
         Scanner scanner;
         Boolean insideHeader = false;
@@ -25,7 +25,7 @@ public class ScriptReader {
                 scanner = new Scanner(files[i]);
                 ScriptHeader header = new ScriptHeader();
                 header.setAttribute("FileName", files[i].getName());
-                System.out.println("FileName" + "   " + header.getAttribute("FileName"));
+                //System.out.println("FileName" + "   " + header.getAttribute("FileName"));
                 while(scanner.hasNextLine()){
                     String line = scanner.nextLine();
                     if(insideHeader){
@@ -45,7 +45,7 @@ public class ScriptReader {
                             }
                         }
                         header.setAttribute(name, data);
-                        System.out.println(name + "   " + header.getAttribute(name));
+                        //System.out.println(name + "   " + header.getAttribute(name));
 
                     }
                     else{

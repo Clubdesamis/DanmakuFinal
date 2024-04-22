@@ -1,5 +1,3 @@
-import java.awt.*;
-
 public class Constants {
     public static final int WINDOW_HEIGHT = 960;
     public static final int WINDOW_WIDTH = 1080;
@@ -11,13 +9,21 @@ public class Constants {
 
     public static final int SCRIPT_SIZE = 500;
 
-    public static final String LANGUAGE = "english";
+    public static final String LANGUAGE = "arabic";
 
     public static final String TEXTURE_FOLDER = "Textures";
     public static final String ANIMATED_SPRITE_FOLDER = "Textures/AnimatedSprites";
     public static final String SCRIPT_FOLDER = "Scripts";
+    public static final String CONFIG_FOLDER = "Config";
 
 
+
+    public static final String CONFIG_UP_KEY_TAG = "UpKey";
+    public static final String CONFIG_DOWN_KEY_TAG = "DownKey";
+    public static final String CONFIG_LEFT_KEY_TAG = "LeftKey";
+    public static final String CONFIG_RIGHT_KEY_TAG = "RightKey";
+    public static final String CONFIG_SHOOT_KEY_TAG = "ShootKey";
+    public static final String CONFIG_LANGUAGE_TAG = "Language";
     public static final String META_TAG = "<META>";
     public static final String META_END_TAG = "</META>";
 
@@ -57,19 +63,18 @@ public class Constants {
     public static final int INSTRUCTION_MAKESPIRAL_INTERNAL_ID = 11;
     public static final int INSTRUCTION_MOVE_ENEMY_INTERNAL_ID = 12;
 
-    public static final char UP_KEYCODE = 'w';
-    public static final char DOWN_KEYCODE = 's';
-    public static final char LEFT_KEYCODE = 'a';
-    public static final char RIGHT_KEYCODE = 'd';
-    public static final char SHOOT_KEYCODE = '.';
+    public static final char DEFAULT_UP_KEYCODE = 'w';
+    public static final char DEFAULT_DOWN_KEYCODE = 's';
+    public static final char DEFAULT_LEFT_KEYCODE = 'a';
+    public static final char DEFAULT_RIGHT_KEYCODE = 'd';
+    public static final char DEFAULT_SHOOT_KEYCODE = '.';
+
+    public static final String DEFAULT_LANGUAGE = "English";
 
     public static final int GAME_WIDTH = 960;
     public static final int GAME_HEIGHT = 1280;
 
 
-
-
     public static final int MENU_LABEL_HEIGHT = 50;
     public static final int MENU_LABEL_WIDTH = 200;
-
 }

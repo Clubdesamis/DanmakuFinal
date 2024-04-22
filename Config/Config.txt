@@ -1,0 +1,9 @@
+<META>
+	UpKey w
+	DownKey s
+	LeftKey a
+	RightKey d
+	ShootKey .
+	/Available options: "english" "french", "arabic", "japanese"
+	Language japanese
+</META>
