@@ -5,5 +5,5 @@
 	RightKey d
 	ShootKey .
 	/Available options: "english" "french", "arabic", "japanese"
-	Language japanese
+	Language english
 </META>

@@ -77,7 +77,8 @@ public class InstructionMakeCircle extends Instruction {
         double trajectorySinus;
         for(int i = 0; i < projectileCount; i++){
             //trajectorySinus = (double)Math.cos(Math.toRadians((double)trajectory));
-            Game.enemyProjectileManager.assignProjectile(positionX + FIRING_DISTANCE * (double)Math.cos(Math.toRadians((double)trajectory)), positionY + FIRING_DISTANCE * (double)Math.sin(Math.toRadians((double)trajectory)), (double)(speed * Math.cos(Math.toRadians((double)trajectory))), (double)(speed * Math.sin(Math.toRadians((double)trajectory))), image, projectileSize, id);
+            //Game.enemyProjectileManager.assignProjectile(positionX + FIRING_DISTANCE * (double)Math.cos(Math.toRadians((double)trajectory)), positionY + FIRING_DISTANCE * (double)Math.sin(Math.toRadians((double)trajectory)), Math.cos(Math.toRadians((double)trajectory)), Math.sin(Math.toRadians((double)trajectory)), image, projectileSize, id);
+            Game.enemyProjectileManager.assignProjectile(positionX + FIRING_DISTANCE * (double)Math.cos(Math.toRadians((double)trajectory)), positionY + FIRING_DISTANCE * (double)Math.sin(Math.toRadians((double)trajectory)), Math.cos(Math.toRadians((double)trajectory)), Math.sin(Math.toRadians((double)trajectory)), speed, image, projectileSize, id);
             trajectory += offset;
         }
         return true;

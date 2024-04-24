@@ -153,8 +153,8 @@ public class PlayableCharacter extends VisualComponent{
 				framesSinceLastShot = 0;
 				//System.out.println("Shooting projectiles from " + Double.toString(positionX) + " " + Double.toString(positionY));
 				//System.out.println("Sprite is at " + Double.toString(sprite.positionX) + " " + Double.toString(sprite.positionY));
-				Game.playerProjectileManager.assignProjectile(positionX - projectileOffsetX, positionY - projectileOffsetY, 0.0, defaultProjectileSpeedY, regularProjectile, 10, -111);
-				Game.playerProjectileManager.assignProjectile(positionX + projectileOffsetX, positionY - projectileOffsetY, 0.0, defaultProjectileSpeedY, regularProjectile, 10, -111);
+				Game.playerProjectileManager.assignProjectile(positionX - projectileOffsetX, positionY - projectileOffsetY, 0.0, 1.0, defaultProjectileSpeedY, regularProjectile, 10, -111);
+				Game.playerProjectileManager.assignProjectile(positionX + projectileOffsetX, positionY - projectileOffsetY, 0.0, 1.0, defaultProjectileSpeedY, regularProjectile, 10, -111);
 			}
 		}
 	}

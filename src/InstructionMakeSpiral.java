@@ -5,6 +5,7 @@ public class InstructionMakeSpiral extends Instruction {
     private int positionX;
     private int positionY;
     private int projectileCount;
+    private int projectilesToShoot;
     private int projectileSize;
     private double projectileSpeed;
     private int firingSpeed;
@@ -26,19 +27,21 @@ public class InstructionMakeSpiral extends Instruction {
 
     public static final int POSITION_X = 0;
     public static final int POSITION_Y = 1;
-    public static final int PROJECTILE_COUNT = 2;
-    public static final int PROJECTILE_SPEED = 3;
-    public static final int FIRING_SPEED = 4;
-    public static final int ROTATION_SPEED = 5;
-    public static final int INITIAL_OFFSET = 6;
-    public static final int CLOCKWISE = 7;
-    public static final int ID = 8;
-    public static final int IMAGE = 9;
+    public static final int POSITION_PROJECTILE_COUNT = 2;
+    public static final int POSITION_PROJECTILES_TO_SHOOT = 3;
+    public static final int POSITION_PROJECTILE_SPEED = 4;
+    public static final int POSITION_FIRING_SPEED = 5;
+    public static final int POSITION_ROTATION_SPEED = 6;
+    public static final int POSITION_INITIAL_OFFSET = 7;
+    public static final int POSITION_CLOCKWISE = 8;
+    public static final int POSITION_IMAGE = 9;
+    public static final int POSITION_ID = 10;
 
-    public InstructionMakeSpiral(int positionX, int positionY, int projectileCount, double projectileSpeed, int firingSpeed, double rotationSpeed, double initialOffset, boolean clockwise, int id, BufferedImage image){
+    public InstructionMakeSpiral(int positionX, int positionY, int projectileCount, int projectilesToShoot, double projectileSpeed, int firingSpeed, double rotationSpeed, double initialOffset, boolean clockwise, BufferedImage image, int id){
         this.positionX = positionX;
         this.positionY = positionY;
         this.projectileCount = projectileCount;
+        this.projectilesToShoot = projectilesToShoot;
         this.projectileSize = image.getHeight();
         this.projectileSpeed = projectileSpeed;
         this.firingSpeed = firingSpeed;
@@ -77,8 +80,18 @@ public class InstructionMakeSpiral extends Instruction {
             double _trajectory = initialOffset + offset;
             double _tempOffset = (double)360.0 / (double)projectileCount;
 
-            Game.enemyProjectileManager.assignProjectile(positionX + FIRING_DISTANCE * (double)Math.cos(Math.toRadians((double)_trajectory)), positionY + FIRING_DISTANCE * (double)Math.sin(Math.toRadians((double)_trajectory)), (double)(projectileSpeed * Math.cos(Math.toRadians((double)_trajectory))), (double)(projectileSpeed * Math.sin(Math.toRadians((double)_trajectory))), image, projectileSize, id);
-            _trajectory += _tempOffset;
+            //Game.enemyProjectileManager.assignProjectile(positionX + FIRING_DISTANCE * (double)Math.cos(Math.toRadians((double)_trajectory)), positionY + FIRING_DISTANCE * (double)Math.sin(Math.toRadians((double)_trajectory)), (double)(projectileSpeed * Math.cos(Math.toRadians((double)_trajectory))), (double)(projectileSpeed * Math.sin(Math.toRadians((double)_trajectory))), image, projectileSize, id);
+            //Game.enemyProjectileManager.assignProjectile(positionX + FIRING_DISTANCE * (double)Math.cos(Math.toRadians((double)_trajectory)), positionY + FIRING_DISTANCE * (double)Math.sin(Math.toRadians((double)_trajectory)), Math.cos(Math.toRadians((double)_trajectory)), Math.sin(Math.toRadians((double)_trajectory)), projectileSpeed, image, projectileSize, id);
+            //_trajectory += _tempOffset;
+
+            double trajectory = initialOffset + offset;
+            double tempOffset = (float)360.0 / (float)projectileCount;
+
+            for(int i = 0; i < projectileCount; i++){
+                Game.enemyProjectileManager.assignProjectile(positionX + FIRING_DISTANCE * (float)Math.cos(Math.toRadians((double)trajectory)), positionY + FIRING_DISTANCE * (float)Math.sin(Math.toRadians((double)trajectory)), Math.cos(Math.toRadians((double)trajectory)), Math.sin(Math.toRadians((double)trajectory)), projectileSpeed, image, projectileSize, id);
+                trajectory += tempOffset;
+
+            }
 
             frameCount = 0;
             if(clockwise){
@@ -89,7 +102,7 @@ public class InstructionMakeSpiral extends Instruction {
             }
             projectilesShot++;
         }
-        if(projectilesShot == projectileCount){
+        if(projectilesShot == projectilesToShoot){
             cleanVariables();
             return true;
         }
@@ -125,8 +138,8 @@ public class InstructionMakeSpiral extends Instruction {
         }
 
         switch(arguments.length){
-            case 10 ->{
-                instruction = new InstructionMakeSpiral(_positionX, _positionY, Integer.parseInt(arguments[PROJECTILE_COUNT]), Double.parseDouble(arguments[PROJECTILE_SPEED]), Integer.parseInt(arguments[FIRING_SPEED]), Double.parseDouble(arguments[ROTATION_SPEED]), Double.parseDouble(arguments[INITIAL_OFFSET]), Boolean.parseBoolean(arguments[CLOCKWISE]), Integer.parseInt(arguments[ID]) ,Game.ressourceManager.getTexture(arguments[IMAGE]));
+            case 11 ->{
+                instruction = new InstructionMakeSpiral(_positionX, _positionY, Integer.parseInt(arguments[POSITION_PROJECTILE_COUNT]), Integer.parseInt(arguments[POSITION_PROJECTILES_TO_SHOOT]), Double.parseDouble(arguments[POSITION_PROJECTILE_SPEED]), Integer.parseInt(arguments[POSITION_FIRING_SPEED]), Double.parseDouble(arguments[POSITION_ROTATION_SPEED]), Double.parseDouble(arguments[POSITION_INITIAL_OFFSET]), Boolean.parseBoolean(arguments[POSITION_CLOCKWISE]), Game.ressourceManager.getTexture(arguments[POSITION_IMAGE]), Integer.parseInt(arguments[POSITION_ID]));
                 //break;
             }
             default ->{

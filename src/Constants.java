@@ -45,6 +45,8 @@ public class Constants {
     public static final String INSTRUCTION_MAKE_CIRCLE_TAG = "makeCircle";
     public static final String INSTRUCTION_MAKE_SPIRAL_TAG = "makeSpiral";
     public static final String INSTRUCTION_MOVE_ENEMY_TAG = "moveEnemy";
+    public static final String INSTRUCTION_SET_TARGET_SPEED_TAG = "setTargetSpeed";
+    public static final String INSTRUCTION_SET_REVOLUTION_SPEED_TAG = "setRevolutionSpeed";
 
     public static final String ARGUMENT_ENEMY_POSITION_X = "enemyPositionX";
     public static final String ARGUMENT_ENEMY_POSITION_Y = "enemyPositionY";
@@ -62,6 +64,8 @@ public class Constants {
     public static final int INSTRUCTION_MAKECIRCLE_INTERNAL_ID = 10;
     public static final int INSTRUCTION_MAKESPIRAL_INTERNAL_ID = 11;
     public static final int INSTRUCTION_MOVE_ENEMY_INTERNAL_ID = 12;
+    public static final int INSTRUCTION_SET_TARGET_SPEED_INTERNAL_ID = 13;
+    public static final int INSTRUCTION_SET_REVOLUTION_SPEED_INTERNAL_ID = 14;
 
     public static final char DEFAULT_UP_KEYCODE = 'w';
     public static final char DEFAULT_DOWN_KEYCODE = 's';

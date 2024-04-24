@@ -11,7 +11,7 @@
 	<PARALLEL>
 		moveEnemy 100 100 2.0
 		<LOOP> 4
-			makeSpiral enemyPositionX enemyPositionY 10 3.5 4 10.0 40.0 true 0 MediumRedProjectile.png
+			makeSpiral enemyPositionX enemyPositionY 10 16 8.0 4 10.0 40.0 true 0 MediumRedProjectile.png
 			wait 350
 		</LOOP>
 	</PARALLEL>

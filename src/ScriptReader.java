@@ -228,6 +228,14 @@ public class ScriptReader {
                                 container.addInstruction(InstructionMoveEnemy.build(argsArray));
                                 break;
                             }
+                            case Constants.INSTRUCTION_SET_TARGET_SPEED_TAG -> {
+                                container.addInstruction(InstructionSetTargetSpeed.build(argsArray));
+                                break;
+                            }
+                            case Constants.INSTRUCTION_SET_REVOLUTION_SPEED_TAG -> {
+                                container.addInstruction(InstructionSetRevolutionSpeed.build(argsArray));
+                                break;
+                            }
                         }
                         //container.addInstruction(new InstructionMakeCircle(200, 200, 32, (float)30.0, (float)4.0, Game.ressourceManager.getTexture("smallPurpleProjectile.png"), 0));
                     }
