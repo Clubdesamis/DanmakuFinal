@@ -88,9 +88,8 @@ public class InstructionMakeSpiral extends Instruction {
             double tempOffset = (float)360.0 / (float)projectileCount;
 
             for(int i = 0; i < projectileCount; i++){
-                Game.enemyProjectileManager.assignProjectile(positionX + FIRING_DISTANCE * (float)Math.cos(Math.toRadians((double)trajectory)), positionY + FIRING_DISTANCE * (float)Math.sin(Math.toRadians((double)trajectory)), Math.cos(Math.toRadians((double)trajectory)), Math.sin(Math.toRadians((double)trajectory)), projectileSpeed, image, projectileSize, id);
+                Game.enemyProjectileManager.assignProjectile(positionX + FIRING_DISTANCE * (float)Math.cos(Math.toRadians((double)trajectory)), positionY + FIRING_DISTANCE * (float)Math.sin(Math.toRadians((double)trajectory)), Math.cos(Math.toRadians((double)trajectory)), Math.sin(Math.toRadians((double)trajectory)), projectileSpeed, image, projectileSize, internalID);
                 trajectory += tempOffset;
-
             }
 
             frameCount = 0;

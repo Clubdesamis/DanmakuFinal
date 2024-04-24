@@ -73,6 +73,8 @@ public class Constants {
     public static final char DEFAULT_RIGHT_KEYCODE = 'd';
     public static final char DEFAULT_SHOOT_KEYCODE = '.';
 
+    public static final double CHARACTER_SLOW_RATIO = 1.5;
+
     public static final String DEFAULT_LANGUAGE = "English";
 
     public static final int GAME_WIDTH = 960;

@@ -18,7 +18,7 @@ public class PlayableCharacter extends VisualComponent{
 	private boolean isImmune;
 	private final int respawnTimeMS = 1000;
 	private final int immunityTimeMS = 1000;
-	private boolean[] keyInputs = {false, false, false, false, false};
+	private boolean[] keyInputs = {false, false, false, false, false, false};
 
 
 	private final int KEY_UP = 0;
@@ -26,6 +26,7 @@ public class PlayableCharacter extends VisualComponent{
 	private final int KEY_LEFT = 2;
 	private final int KEY_RIGHT = 3;
 	private final int KEY_SHOOT = 4;
+	private final int KEY_SLOW = 5;
 
 	private final double defaultPositionX = 350;
 	private final double defaultPositionY = 500;
@@ -193,22 +194,42 @@ public class PlayableCharacter extends VisualComponent{
 
 		if(keyInputs[KEY_UP]){
 			if(positionY - height / 2 > 0){
-				positionY -= speedY;
+				if(keyInputs[KEY_SLOW]){
+					positionY -= speedY / Constants.CHARACTER_SLOW_RATIO;
+				}
+				else{
+					positionY -= speedY;
+				}
 			}
 		}
 		if(keyInputs[KEY_DOWN]){
 			if(positionY + height + height / 2 < 960){
-				positionY += speedY;
+				if(keyInputs[KEY_SLOW]){
+					positionY += speedY / Constants.CHARACTER_SLOW_RATIO;
+				}
+				else{
+					positionY += speedY;
+				}
 			}
 		}
 		if(keyInputs[KEY_LEFT]){
 			if(positionX - width / 2 > 0){
-				positionX -= speedX;
+				if(keyInputs[KEY_SLOW]){
+					positionX -= speedX / Constants.CHARACTER_SLOW_RATIO;
+				}
+				else{
+					positionX -= speedX;
+				}
 			}
 		}
 		if(keyInputs[KEY_RIGHT]){
 			if(positionX + width / 2 < 700){
-				positionX += speedX;
+				if(keyInputs[KEY_SLOW]){
+					positionX += speedX / Constants.CHARACTER_SLOW_RATIO;
+				}
+				else{
+					positionX += speedX;
+				}
 			}
 		}
 
@@ -237,6 +258,9 @@ public class PlayableCharacter extends VisualComponent{
 				else if(keyCode == Variables.SHOOT_KEYCODE){
 					keyInputs[KEY_SHOOT] = true;
 				}
+				else if(keyCode == (char)0x20){
+					keyInputs[KEY_SLOW] = true;
+				}
 			}
 			case KEY_RELEASED -> {
 
@@ -254,6 +278,9 @@ public class PlayableCharacter extends VisualComponent{
 				}
 				else if(keyCode == Variables.SHOOT_KEYCODE){
 					keyInputs[KEY_SHOOT] = false;
+				}
+				else if(keyCode == (char)0x20){
+					keyInputs[KEY_SLOW] = false;
 				}
 			}
 		}

@@ -21,7 +21,7 @@ public class Projectile {
     public double revolutionCenterX = 0.0;
     public double revolutionCenterY = 0.0;
     //public double revolutionCenterAngle = 0.0;
-    public double revolutionSpeed = 0.0;
+    private double revolutionSpeed = 0.0;
 
     public double collisionRadius = 0.0;
     private BufferedImage image;
@@ -85,6 +85,7 @@ public class Projectile {
         this.targetSpeedScalar = 0.0;
         this.enabled = false;
         this.internalID = -1;
+        this.revolutionSpeed = 0.0;
     }
 
     public void setSpeed(double speedX, double speedY){
@@ -144,6 +145,7 @@ public class Projectile {
 
     public void computeRevolution(){
         if(revolutionSpeed != 0.0){
+
             double _distanceX = Math.abs(positionX) - Math.abs(revolutionCenterX);
             double _distanceY = Math.abs(positionY) - Math.abs(revolutionCenterY);
             double _distanceScalar = Math.sqrt(Math.pow(_distanceX, 2) + Math.pow(_distanceY, 2));

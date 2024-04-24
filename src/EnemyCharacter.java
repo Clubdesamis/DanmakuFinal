@@ -17,7 +17,7 @@ public class EnemyCharacter extends VisualComponent{
 	private BufferedImage[] sprite;
 
 	private final double defaultPositionX = 350;
-	private final double defaultPositionY = 200;
+	private final double defaultPositionY = 300;
 	private final int SPRITE_WIDTH = 44;
 	private final int SPRITE_HEIGHT = 53;
 
