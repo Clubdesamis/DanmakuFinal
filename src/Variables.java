@@ -6,6 +6,7 @@ public class Variables {
 	public static String username = "";
 	public static String password = "";
 	public static boolean connected = false;
+	public static int userId;
 	public static String stageName;
 
 

@@ -84,7 +84,7 @@ public class Game {
                 //System.out.println(Long.toString(timeToSleep));
 
                 if(timeToSleep <= 0){
-                    System.out.println("Invalid timeout value in main loop, defaulting to skipping thread sleep");
+                    //System.out.println("Invalid timeout value in main loop, defaulting to skipping thread sleep");
                 }
                 else{
                     Thread.sleep(timeToSleep);

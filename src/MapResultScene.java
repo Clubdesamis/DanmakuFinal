@@ -80,9 +80,9 @@ public class MapResultScene implements Scene {
 
 		if(backToMenuButton.isClicked()){
 			backToMenuButton.setClicked(false);
-
-			int response = Game.networkInterface.postScore(Variables.username, Game.projectileScript.getScriptHeader().getAttribute("Name"), Variables.score);
-
+			if(Variables.connected){
+				int response = Game.networkInterface.postScore(Variables.username, Game.projectileScript.getScriptHeader().getAttribute("FileName"), Variables.score);
+			}
 
 			Game.sceneManager.setScenesToRender(1);
 			Game.sceneManager.pop();

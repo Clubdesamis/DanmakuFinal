@@ -7,5 +7,5 @@ LifeCount 4
 </META>
 
 <SCRIPT>
-	wait 150000
+	wait 2000
 </SCRIPT>

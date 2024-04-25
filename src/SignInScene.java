@@ -108,8 +108,8 @@ public class SignInScene implements Scene{
 				//int response = -1;
 				if((response == NetworkInterface.INVALID_ID) || (response == NetworkInterface.INVALID_PASSWORD)){
 					loginErrorLabel.setText(Game.dialogManager.getDialog("sign_in_invalid_credentials"));
-					userNameField.setText("");
-					passwordField.setText("");
+					//userNameField.setText("");
+					//passwordField.setText("");
 				}
 				else if((response == NetworkInterface.INVALID_SERVER_RESPONSE) || (response == NetworkInterface.NO_RESPONSE_FROM_SERVER)){
 					loginErrorLabel.setText((Game.dialogManager.getDialog("sign_in_server_error")));

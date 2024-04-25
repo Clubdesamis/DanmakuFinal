@@ -7,9 +7,10 @@ import java.util.Map;
 
 public class NetworkInterface {
 	private final String httpHeader = "http://";
-	private final String ipAddress = "144.217.83.146";
+	private final String ipAddress = "144.217.83.146:8080";
 	private final String loginPath = "/login";
-	private final String publishScorePath = "/publish";
+	private final String publishScorePath = "/score/create";
+	private final String getMapsPath = "/map/all";
 	private final String registerPath = "/register";
 	private final int connectTimeout = 2000;
 	private final int readTimeout = 2000;
@@ -36,15 +37,20 @@ public class NetworkInterface {
 			connection.setRequestMethod("GET");
 
 			Map<String, String> arguments = new HashMap<>();
-			arguments.put("Username", username);
-			arguments.put("Password", password);
+			arguments.put("username", username);
+			arguments.put("password", password);
 
+			connection.setRequestProperty("Content-Type", "application/json");
 			connection.setConnectTimeout(connectTimeout);
 			connection.setReadTimeout(readTimeout);
 			connection.setDoOutput(true);
 
+			String json = "{" + (char)0x22 + "username" + (char)0x22  + ": " + (char)0x22 + username + (char)0x22 + "," + (char)0x22 + "password" + (char)0x22 + ": " + (char)0x22 + password + (char)0x22 + "}";
+					
+
 			DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-			out.writeBytes(getParamsString(arguments));
+			//out.writeBytes(getParamsString(arguments));
+			out.writeBytes(json);
 			out.flush();
 			out.close();
 
@@ -53,51 +59,151 @@ public class NetworkInterface {
 			//InputStream errorStream = connection.getErrorStream();
 			//String test = errorStream.toString();
 
-			BufferedReader bufferIn = new BufferedReader(new InputStreamReader((connection.getErrorStream())));
+
+
+
+			BufferedReader bufferIn;
+			if(status != 200){
+				System.out.println("Invalid HTTP response code in login validation");
+				System.out.println("Response code : " + Integer.toString(status));
+				//return INVALID_SERVER_RESPONSE;
+				bufferIn = new BufferedReader(new InputStreamReader((connection.getErrorStream())));
+			}
+			else{
+				bufferIn = new BufferedReader(new InputStreamReader((connection.getInputStream())));
+			}
+
 			String inputLine;
 			StringBuffer content = new StringBuffer();
 			while((inputLine = bufferIn.readLine()) != null){
 				content.append(inputLine);
 			}
-			System.out.println(content.toString());
-
-			if(status != 200){
-				System.out.println("Invalid HTTP response code in login validation");
-				System.out.println("Response code : " + Integer.toString(status));
-				return INVALID_SERVER_RESPONSE;
+			if(status == 200){
+				Variables.userId = getId(content.toString());
 			}
-			return VALID_RESPONSE;
+
+			String returnValueString = "" + content.toString().charAt(9);
+			int returnValue = Integer.parseInt(returnValueString);
+			if(returnValue == 0){
+				return VALID_RESPONSE;
+			}
+			else if(returnValue == 1){
+				return INVALID_ID;
+			}
+			else if(returnValue == 2){
+				return INVALID_PASSWORD;
+			}
 		}
 		catch(Exception e){
 			System.out.println(e.toString());
 			return NO_RESPONSE_FROM_SERVER;
 		}
+		return NO_RESPONSE_FROM_SERVER;
 	}
 
-	public int postScore(String username, String mapName, int score){
+	public int getId(String content){
+		String idString = "";
+		boolean onId = false;
+		for(int i = 0; i < content.length(); i++){
+			if(content.charAt(i) == 'i' && content.charAt(i + 1) == 'd'){
+				i += 4;
+				onId = true;
+			}
+			if(onId){
+				if ((content.charAt(i) >= '0') && (content.charAt(i) <= '9')){
+					idString += content.charAt(i);
+				}
+				else{
+					onId = false;
+					i = content.length();
+				}
+			}
+		}
+		return Integer.parseInt(idString);
+	}
+
+	public String getMapID(String mapName){
 		try{
-			System.out.println("Sending score validation with username : " + username + " Map name : " + mapName + " Score : " + Integer.toString(score));
-			URL urlDanmaku = new URL(httpHeader + ipAddress + publishScorePath);
+			URL urlDanmaku = new URL(httpHeader + ipAddress + getMapsPath);
 			HttpURLConnection connection = (HttpURLConnection) urlDanmaku.openConnection();
-			connection.setRequestMethod("POST");
+			connection.setRequestMethod("GET");
 
-			Map<String, String> arguments = new HashMap<>();
-			arguments.put("Username", username);
-			arguments.put("Map", mapName);
-			arguments.put("Score", Integer.toString(score));
-
+			connection.setRequestProperty("Content-Type", "application/json");
 			connection.setConnectTimeout(connectTimeout);
 			connection.setReadTimeout(readTimeout);
 			connection.setDoOutput(true);
 
+			String json = "";
+
 			DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-			out.writeBytes(getParamsString(arguments));
+			out.writeBytes(json);
 			out.flush();
 			out.close();
 
 			int status = connection.getResponseCode();
 
-			BufferedReader bufferIn = new BufferedReader(new InputStreamReader((connection.getErrorStream())));
+			BufferedReader bufferIn;
+			if(status != 200){
+				System.out.println("Invalid HTTP response code in map fetch");
+				System.out.println("Response code : " + Integer.toString(status));
+				//return INVALID_SERVER_RESPONSE;
+				bufferIn = new BufferedReader(new InputStreamReader((connection.getErrorStream())));
+			}
+			else{
+				bufferIn = new BufferedReader(new InputStreamReader((connection.getInputStream())));
+			}
+
+			String inputLine;
+			StringBuffer content = new StringBuffer();
+			while((inputLine = bufferIn.readLine()) != null){
+				content.append(inputLine);
+			}
+
+
+		}
+		catch(Exception e){
+
+		}
+		return "nullString";
+	}
+
+	public int postScore(String username, String id, int score){
+		try{
+			System.out.println("Sending score validation with username : " + username + " Map name : " + id + " Score : " + Integer.toString(score));
+			URL urlDanmaku = new URL(httpHeader + ipAddress + publishScorePath);
+			HttpURLConnection connection = (HttpURLConnection) urlDanmaku.openConnection();
+			connection.setRequestMethod("POST");
+
+			connection.setRequestProperty("Content-Type", "application/json");
+			connection.setConnectTimeout(connectTimeout);
+			connection.setReadTimeout(readTimeout);
+			connection.setDoOutput(true);
+
+
+			//String json = "{" + (char)0x22 + "username" + (char)0x22  + ": " + (char)0x22 + username + (char)0x22 + "," + (char)0x22 + "password" + (char)0x22 + ": " + (char)0x22 + password + (char)0x22 + "}";
+
+			String json = "{" + (char)0x22 + "ownerId" + (char)0x22 + ": " + (char)0x22 + Integer.toString(Variables.userId) + (char)0x22 + "," +
+					(char)0x22 + "mapId" + (char)0x22 + ": " + (char)0x22 + id.substring(0, id.length() - 5) + (char)0x22 + "," + (char)0x22 + "value" +
+					(char)0x22 + ": " + (char)0x22 + Integer.toString(score) + (char)0x22 + "}";
+
+
+
+			DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+			out.writeBytes(json);
+			out.flush();
+			out.close();
+
+			int status = connection.getResponseCode();
+
+			BufferedReader bufferIn;
+
+			if(status == 200){
+				bufferIn = new BufferedReader(new InputStreamReader((connection.getInputStream())));
+			}
+			else{
+				bufferIn = new BufferedReader(new InputStreamReader((connection.getErrorStream())));
+			}
+
 			String inputLine;
 			StringBuffer content = new StringBuffer();
 			while((inputLine = bufferIn.readLine()) != null){
